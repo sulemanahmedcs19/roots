@@ -1,108 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
 import "boxicons/css/boxicons.min.css";
 
-const header = () => {
-  const toggleMobileMenu = () => {
-    const mobileMenu = document.getElementById("mobileMenu");
+const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    if (mobileMenu.classList.contains("hidden")) {
-      mobileMenu.classList.remove("hidden");
-    } else {
-      mobileMenu.classList.add("hidden");
-    }
-  };
   return (
     <header className="flex justify-between items-center py-4 px-4 lg:px-20">
-      <img className="w-18 h-12" src="/roots.jpeg"></img>
+      <img src="/roots.jpeg" alt="Logo" className="w-18 h-12" />
 
-      {/* Desktop Navigation*/}
+      {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-12">
+        {/* Reusable Button Style */}
         <a
           data-aos="fade-down"
-          data-aos-easing="linear"
           data-aos-duration="1000"
-          className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
+          className="px-4 py-2 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
           href="#"
         >
           Home
         </a>
         <a
           data-aos="fade-down"
-          data-aos-easing="linear"
           data-aos-duration="1500"
-          className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
+          className="px-4 py-2 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
           href="#"
         >
-          BLOG
+          Blog
         </a>
         <a
           data-aos="fade-down"
-          data-aos-easing="linear"
           data-aos-duration="2000"
-          className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
+          className="px-4 py-2 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
           href="#"
         >
-          CONTACT
+          Contact
         </a>
         <a
           data-aos="fade-down"
-          data-aos-easing="linear"
           data-aos-duration="2500"
-          className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
+          className="px-4 py-2 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
           href="#"
         >
-          OUR PRICING
+          Pricing
         </a>
       </nav>
 
-      <button
-        className="hidden md:block bg-[#a7a7a7] text-black py-3 px-8 rounded-full border-none font-medium transition-all
-                 duration-500 hover:bg-white cursor-pointer Z-50"
-      >
-        SIGNIN
+      {/* Desktop Sign In */}
+      <button className="hidden md:block bg-[#a7a7a7] text-black py-3 px-8 rounded-full font-medium hover:bg-white transition-all">
+        SIGN IN
       </button>
 
-      {/*Mobile Menu Button*/}
+      {/* Mobile Menu Button */}
       <button
-        onClick={toggleMobileMenu}
-        className="md:hidden text-3xl p-2 z-50"
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden text-3xl p-2"
       >
-        <i class="bx bx-menu"></i>
+        <i className={menuOpen ? "bx bx-x" : "bx bx-menu"}></i>
       </button>
 
-      <div
-        id="mobileMenu"
-        className="hidden fixed top-16 bottom-0 right-0 left-0 p-5 md:hidden z-40 bg-black bg-opacity-70 backdrop-blur- md"
-      >
-        <nav className="flex flex-col gap-6 items-center">
-          <a
-            className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
-            href="#"
-          >
-            Home
-          </a>
-          <a
-            className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
-            href="#"
-          >
-            BLOG
-          </a>
-          <a
-            className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
-            href="#"
-          >
-            CONTACT
-          </a>
-          <a
-            className="text-base tracking-wider transition-colors hover:text-gray-300 z-50"
-            href="#"
-          >
-            OUR PRICING
-          </a>
-        </nav>
-      </div>
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="fixed top-16 right-0 left-0 p-5 bg-black bg-opacity-70 backdrop-blur-md md:hidden z-40">
+          <nav className="flex flex-col gap-6 items-center">
+            <a
+              className="px-5 py-3 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
+              href="#"
+            >
+              Home
+            </a>
+            <a
+              className="px-5 py-3 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
+              href="#"
+            >
+              Blog
+            </a>
+            <a
+              className="px-5 py-3 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
+              href="#"
+            >
+              Contact
+            </a>
+            <a
+              className="px-5 py-3 rounded-full border border-[#2a2a2a] hover:bg-[#1a1a1a] transition-all tracking-wider"
+              href="#"
+            >
+              Pricing
+            </a>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
 
-export default header;
+export default Header;
