@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import Header from "./components/header";
 import Hero from "./components/hero";
 import Blog from "./components/Blog";
 import Contact from "./components/Contact";
