@@ -2,15 +2,15 @@ import React from "react";
 import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
 
-const Hero = () => {
+const Hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
       className="
         flex flex-col lg:flex-row items-start justify-start
-        min-h-[calc(90vh-6rem)]
+        w-screen h-screen
         px-4 lg:px-20 relative
-        pt-32   /* 👈 YAHAN SE TOP GAP ADD HO GAYA */
+        pt-0  /* TOP GAP REMOVE */
       "
     >
       <div className="max-w-xl z-10 mt-10 sm:mt-10">
@@ -48,19 +48,19 @@ const Hero = () => {
           data-aos-delay="500"
           className="flex flex-wrap gap-4 mt-12"
         >
-          <a
+          <button
             className="border border-[#2a2a2a] py-2 sm:py-3 px-4 sm:px-5 rounded-full text-sm sm:text-lg font-semibold tracking-wider hover:bg-[#1a1a1a] transition-all"
-            href="#"
+            onClick={() => scrollToPanel(1)} // Blog section
           >
             Documentation <i className="bx bx-link-external ml-1"></i>
-          </a>
+          </button>
 
-          <a
+          <button
             className="border border-[#2a2a2a] py-2 sm:py-3 px-8 sm:px-10 rounded-full text-sm sm:text-lg font-semibold tracking-wider bg-gray-300 text-black hover:bg-[#1a1a1a] hover:text-white transition-all"
-            href="#"
+            onClick={() => scrollToPanel(2)} // Contact section
           >
             Get Started <i className="bx bx-link-external ml-1"></i>
-          </a>
+          </button>
         </div>
       </div>
 
