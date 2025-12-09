@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 
 const Blog = () => {
@@ -36,91 +36,89 @@ const Blog = () => {
   ];
 
   const cardRefs = useRef([]);
-  const [scrollDir, setScrollDir] = useState("down");
-
-  useEffect(() => {
-    let lastScroll = window.scrollY;
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      setScrollDir(currentScroll > lastScroll ? "down" : "up");
-      lastScroll = currentScroll;
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const target = entry.target;
+          const el = entry.target;
+
           if (entry.isIntersecting) {
-            target.classList.add("translate-x-0", "opacity-100");
-            target.classList.remove("-translate-x-20", "translate-x-20");
+            el.classList.remove("opacity-0", "translate-y-10");
+            el.classList.add("opacity-100", "translate-y-0");
           } else {
-            const dir = target.dataset.direction;
-            target.classList.remove("translate-x-0", "opacity-100");
-            target.classList.add(
-              dir === "left" ? "-translate-x-20" : "translate-x-20"
-            );
+            el.classList.add("opacity-0", "translate-y-10");
+            el.classList.remove("opacity-100", "translate-y-0");
           }
         });
       },
-      { threshold: 0.15 } // earlier 0.3, now low for smoother trigger
+      { threshold: 0.2 }
     );
 
-    cardRefs.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
+    cardRefs.current.forEach((card) => card && observer.observe(card));
 
-    return () => {
-      cardRefs.current.forEach((card) => {
-        if (card) observer.unobserve(card);
-      });
-    };
-  }, [scrollDir]);
+    return () =>
+      cardRefs.current.forEach((card) => card && observer.unobserve(card));
+  }, []);
 
   return (
-    <section id="blog" className="px-6 lg:px-20 py-20 text-white space-y-10">
-      <div className="relative w-[95%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full mt-10">
-        <div className="animate-pulse absolute inset-[3px] bg-black rounded-full flex items-center justify-center gap-1">
+    <section
+      id="blog"
+      className="px-6 lg:px-20 py-20 
+                 bg-gradient-to-b from-[#0a0705] to-[#1c120c]
+                 text-white space-y-14"
+    >
+      {/* HEADING */}
+      <div
+        className="relative w-48 h-10 
+                      bg-gradient-to-r from-[#c47a45] to-[#e99b63]
+                      shadow-[0_0_25px_rgba(233,155,99,0.6)]
+                      rounded-full mx-auto mt-8"
+      >
+        <div
+          className="absolute inset-[3px] bg-[#0a0705] rounded-full 
+                        flex items-center justify-center 
+                        text-[#ffb782] font-semibold tracking-wider"
+        >
           BLOGS
         </div>
       </div>
 
-      <p className="text-gray-400 max-w-2xl">
+      <p className="text-gray-400 max-w-2xl text-center mx-auto leading-relaxed">
         Latest insights, developer tips, and product updates to help you build
-        better email systems. Explore articles, tools, and best practices for
-        developers and tech enthusiasts.
+        better and smarter systems.
       </p>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-        {posts.map((post, index) => {
-          const direction = index < 3 ? "left" : "right";
-          return (
-            <div
-              key={index}
-              ref={(el) => (cardRefs.current[index] = el)}
-              data-direction={direction}
-              className={`bg-[#0f0f0f] border border-[#2a2a2a] p-6 rounded-2xl hover:bg-[#1a1a1a] cursor-pointer group transform transition-all duration-700 opacity-0 ${
-                direction === "left" ? "-translate-x-20" : "translate-x-20"
-              }`}
+      {/* CARDS */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {posts.map((post, i) => (
+          <div
+            key={i}
+            ref={(el) => (cardRefs.current[i] = el)}
+            className="opacity-0 translate-y-10 transition-all duration-[900ms]
+                       bg-[#120e0c] border border-[#e99b63]/40 
+                       hover:border-[#e99b63] hover:bg-[#1b1512]
+                       rounded-3xl p-4 shadow-md shadow-black/40
+                       hover:shadow-[0_0_20px_rgba(233,155,99,0.25)]
+                       cursor-pointer"
+          >
+            <i className={`${post.icon} text-4xl text-[#e99b63] mb-4`}></i>
+
+            <h3 className="text-xl font-semibold text-white transition">
+              {post.title}
+            </h3>
+
+            <p className="text-gray-400 mt-3 text-sm">{post.desc}</p>
+
+            <button
+              className="mt-5 px-4 py-2 bg-[#e99b63] text-black 
+                               font-semibold rounded-lg flex items-center gap-2 
+                               hover:bg-[#ffca9a] transition"
             >
-              <i
-                className={`${post.icon} text-4xl text-gray-300 group-hover:text-white transition-all`}
-              ></i>
-              <h3 className="text-xl font-semibold mt-4 group-hover:text-white transition-all">
-                {post.title}
-              </h3>
-              <p className="text-gray-400 mt-3 text-sm leading-relaxed">
-                {post.desc}
-              </p>
-              <button className="mt-4 text-sm text-gray-300 group-hover:text-white flex items-center gap-1">
-                Read More <i className="bx bx-right-arrow-alt text-lg"></i>
-              </button>
-            </div>
-          );
-        })}
+              Read More <i className="bx bx-right-arrow-alt text-lg"></i>
+            </button>
+          </div>
+        ))}
       </div>
     </section>
   );

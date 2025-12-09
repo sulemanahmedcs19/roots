@@ -7,15 +7,18 @@ const Hero = ({ scrollToPanel }) => {
     <main
       id="home"
       className="
-        flex flex-col lg:flex-row items-start justify-start
+        flex flex-col lg:flex-row items-center justify-between
         w-screen h-screen
         px-4 lg:px-20 relative
-        pt-0  /* TOP GAP REMOVE */
+        pt-0
+        bg-black
+        text-white
       "
     >
-      <div className="max-w-xl z-10 mt-10 sm:mt-10">
+      {/* Left Content */}
+      <div className="max-w-xl z-10 flex flex-col justify-center space-y-8 text-left lg:text-left lg:flex-1">
         {/* Tag Box */}
-        <div className="relative w-[95%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full mt-10">
+        <div className="relative w-[95%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full">
           <div className="animate-pulse absolute inset-[3px] bg-black rounded-full flex items-center justify-center gap-1">
             <i className="bx bx-diamond"></i>
             Introducing
@@ -25,7 +28,7 @@ const Hero = ({ scrollToPanel }) => {
         {/* Main Heading */}
         <h1
           data-aos="fade-up"
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-wider my-8"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-wider"
         >
           EMAIL FOR <br /> DEVELOPERS
         </h1>
@@ -46,7 +49,7 @@ const Hero = ({ scrollToPanel }) => {
         <div
           data-aos="fade-up"
           data-aos-delay="500"
-          className="flex flex-wrap gap-4 mt-12"
+          className="flex flex-wrap gap-4 mt-4"
         >
           <button
             className="border border-[#2a2a2a] py-2 sm:py-3 px-4 sm:px-5 rounded-full text-sm sm:text-lg font-semibold tracking-wider hover:bg-[#1a1a1a] transition-all"
@@ -64,11 +67,45 @@ const Hero = ({ scrollToPanel }) => {
         </div>
       </div>
 
-      {/* 3D Model */}
-      <Spline
-        className="absolute lg:top-[10%] top-[40%] left-0 lg:left-[25%] h-full"
-        scene="https://prod.spline.design/VcskI0gyI6byiCdW/scene.splinecode"
-      />
+      {/* Right Side Spline & Light Effects */}
+      <div className="relative lg:w-1/2 w-full h-full flex justify-center items-center mt-12 lg:mt-0">
+        {/* Orange subtle glow behind spline */}
+        <div
+          style={{
+            position: "absolute",
+            width: "400px",
+            height: "400px",
+            borderRadius: "50%",
+            filter: "blur(100px)",
+            background:
+              "radial-gradient(circle, rgba(233,155,99,0.5) 0%, rgba(233,155,99,0.2) 60%, transparent 100%)",
+            top: "15%",
+            right: "5%",
+            zIndex: 10,
+            pointerEvents: "none",
+          }}
+        />
+        {/* Shadow at bottom of spline */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            left: "25%",
+            width: "250px",
+            height: "90px",
+            borderRadius: "50%",
+            filter: "blur(70px)",
+            background: "rgba(0,0,0,0.7)",
+            zIndex: 9,
+            pointerEvents: "none",
+          }}
+        />
+        {/* Spline 3D Model */}
+        <Spline
+          className="w-full h-full relative z-20"
+          scene="https://prod.spline.design/VcskI0gyI6byiCdW/scene.splinecode"
+        />
+      </div>
     </main>
   );
 };

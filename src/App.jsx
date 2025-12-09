@@ -33,42 +33,36 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // ⭐ Scroll function
+  // ⭐ Scroll to panel
   const scrollToPanel = (index, updateURL = true) => {
-    if (index < 0 || index >= sections.length) return;
+    if (index < 0 || index >= sections.length || !containerRef.current) return;
 
     currentIndex.current = index;
     isScrolling.current = true;
 
     const scrollTo = index * window.innerWidth;
 
-    if (containerRef.current) {
-      gsap.to(containerRef.current, {
-        scrollLeft: scrollTo,
-        duration: 0.8,
-        ease: "power2.inOut",
-        onComplete: () => {
-          isScrolling.current = false;
-          setActiveIndex(index);
-          if (updateURL) {
-            navigate("/" + sections[index], { replace: true });
-          }
-        },
-      });
-    }
+    gsap.to(containerRef.current, {
+      scrollLeft: scrollTo,
+      duration: 0.8,
+      ease: "power2.inOut",
+      onComplete: () => {
+        isScrolling.current = false;
+        setActiveIndex(index);
+        if (updateURL) navigate("/" + sections[index], { replace: true });
+      },
+    });
   };
 
   // ⭐ Wheel scroll
   useEffect(() => {
     if (loading) return;
-
     const container = containerRef.current;
     if (!container) return;
 
     const handleWheel = (e) => {
       e.preventDefault();
       if (isScrolling.current) return;
-
       if (e.deltaY > 0) scrollToPanel(currentIndex.current + 1);
       else if (e.deltaY < 0) scrollToPanel(currentIndex.current - 1);
     };
@@ -110,7 +104,6 @@ export default function App() {
 
     container.addEventListener("touchstart", handleTouchStart);
     container.addEventListener("touchend", handleTouchEnd);
-
     return () => {
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchend", handleTouchEnd);
@@ -119,9 +112,15 @@ export default function App() {
 
   // ⭐ Page refresh / URL sync
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const path = location.pathname.replace(/\/$/, "");
     const index = sections.findIndex((sec) => "/" + sec === path);
-    if (index >= 0) scrollToPanel(index, false);
+    if (index >= 0) {
+      // Scroll only after render
+      requestAnimationFrame(() => scrollToPanel(index, false));
+    }
   }, [location.pathname]);
 
   // ⭐ IntersectionObserver to track visible panel and update active dot
@@ -133,7 +132,6 @@ export default function App() {
             const index = Number(entry.target.dataset.index);
             setActiveIndex(index);
 
-            // Update URL only if user scrolled manually, not GSAP animation
             if (!isScrolling.current) {
               currentIndex.current = index;
               navigate("/" + sections[index], { replace: true });
@@ -141,10 +139,7 @@ export default function App() {
           }
         });
       },
-      {
-        root: containerRef.current,
-        threshold: 0.5,
-      }
+      { root: containerRef.current, threshold: 0.5 }
     );
 
     sectionRefs.current.forEach((sec) => {
@@ -171,7 +166,7 @@ export default function App() {
 
       <main
         ref={containerRef}
-        className="flex w-screen h-screen overflow-hidden"
+        className="flex w-screen h-screen overflow-x-hidden overflow-y-hidden"
       >
         {[Hero, Blog, Contact, Pricing].map((Component, idx) => (
           <section
