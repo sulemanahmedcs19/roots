@@ -4,8 +4,16 @@ import Spline from "@splinetool/react-spline";
 
 const Hero = () => {
   return (
-    <main className="flex flex-col lg:flex-row items-start justify-start lg:mt-20 min-h-[calc(90vh-6rem)] px-4 lg:px-20 relative">
-      <div className="max-w-xl z-10 mt-20 sm:mt-10">
+    <main
+      id="home"
+      className="
+        flex flex-col lg:flex-row items-start justify-start
+        min-h-[calc(90vh-6rem)]
+        px-4 lg:px-20 relative
+        pt-32   /* 👈 YAHAN SE TOP GAP ADD HO GAYA */
+      "
+    >
+      <div className="max-w-xl z-10 mt-10 sm:mt-10">
         {/* Tag Box */}
         <div className="relative w-[95%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full mt-10">
           <div className="animate-pulse absolute inset-[3px] bg-black rounded-full flex items-center justify-center gap-1">
@@ -58,7 +66,7 @@ const Hero = () => {
 
       {/* 3D Model */}
       <Spline
-        className="absolute lg:top-[-20%] top-[10%] left-0 lg:left-[25%] h-full"
+        className="absolute lg:top-[10%] top-[40%] left-0 lg:left-[25%] h-full"
         scene="https://prod.spline.design/VcskI0gyI6byiCdW/scene.splinecode"
       />
     </main>

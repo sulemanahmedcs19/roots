@@ -1,19 +1,33 @@
+import { useEffect, useState } from "react";
 import Header from "./components/header";
 import Hero from "./components/hero";
 import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Pricing from "./components/Pricing";
+import RobotLoader from "./components/RobotLoader"; // Loader import
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     AOS.init({
       duration: 1500,
       once: true,
     });
+
+    // 5 second ke baad loader hide
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  if (loading) {
+    return <RobotLoader />; // Loader show karo
+  }
 
   return (
     <main>

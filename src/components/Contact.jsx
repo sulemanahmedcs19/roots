@@ -20,7 +20,10 @@ const Contact = () => {
   }, []);
 
   return (
-    <section className="bg-black text-white min-h-screen px-6 lg:px-40 py-32">
+    <section
+      id="contact"
+      className="bg-black text-white min-h-screen px-6 lg:px-40 py-32"
+    >
       {/* Animated Heading */}
       <div ref={headingRef} className="overflow-hidden mb-20">
         <h1

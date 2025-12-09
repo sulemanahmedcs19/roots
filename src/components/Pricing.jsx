@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// 5 sample plans array
 const plans = [
   {
     id: 1,
@@ -59,16 +58,7 @@ const plans = [
   },
 ];
 
-// Gradient colors for each card
-const gradients = [
-  "from-pink-500 to-orange-400",
-  "from-purple-500 to-blue-400",
-  "from-yellow-400 to-pink-400",
-  "from-green-400 to-blue-400",
-  "from-red-500 to-yellow-400",
-];
-
-const PricingCard = ({ plan, billingCycle, gradient }) => {
+const PricingCard = ({ plan, billingCycle }) => {
   const price =
     billingCycle === "monthly"
       ? plan.priceMonthly
@@ -81,13 +71,16 @@ const PricingCard = ({ plan, billingCycle, gradient }) => {
 
   return (
     <div
-      className={`rounded-xl w-72 sm:w-64 md:w-56 flex flex-col p-6 text-white
-        bg-gradient-to-r ${gradient} shadow-xl transform transition duration-500 hover:scale-105`}
+      className={`rounded-2xl w-80 bg-[#0d0d0d]/70 border border-[#2a2a2a] backdrop-blur-md
+      shadow-[0_0_20px_rgba(233,155,99,0.15)]
+      p-7 text-white transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(233,155,99,0.35)]`}
     >
-      <h3 className="text-2xl font-extrabold mb-2">{plan.title}</h3>
-      <p className="text-sm italic mb-4">{plan.description}</p>
+      <h3 className="text-3xl font-bold tracking-wide mb-2">{plan.title}</h3>
+      <p className="text-gray-400 mb-4 text-sm">{plan.description}</p>
 
-      <div className="text-4xl font-extrabold mb-1">${price}</div>
+      <div className="text-5xl font-extrabold mb-2 text-[#e99b63] drop-shadow-sm">
+        ${price}
+      </div>
 
       {billingCycle === "monthly" && setupFee > 0 && (
         <div className="text-xs line-through text-red-400 mb-3">
@@ -99,21 +92,22 @@ const PricingCard = ({ plan, billingCycle, gradient }) => {
         <div className="text-xs text-green-400 mb-3">Save on setup fee!</div>
       )}
 
-      <div className="text-xs mb-6">
-        {billingCycle === "monthly" ? "Billed Monthly" : "Billed Yearly"}
+      <div className="text-xs mb-6 text-gray-400 tracking-wider">
+        {billingCycle === "monthly" ? "BILLED MONTHLY" : "BILLED YEARLY"}
       </div>
 
       <button
-        className="bg-white text-black font-semibold rounded-md py-2 mb-4 hover:opacity-90 transition"
+        className="bg-gradient-to-r from-[#656565] to-[#e99b63] text-black font-semibold 
+        w-full rounded-full py-3 mb-6 tracking-wide hover:opacity-90 transition-all"
         type="button"
       >
         {plan.buttonText}
       </button>
 
-      <ul className="text-xs space-y-1 flex-grow">
+      <ul className="text-sm space-y-2 text-gray-300">
         {plan.features.map((feature, idx) => (
-          <li key={idx} className="flex items-start">
-            <span className="mr-2 mt-1 text-lg">→</span>
+          <li key={idx} className="flex items-start gap-2">
+            <i className="bx bx-check text-[#e99b63] text-lg"></i>
             <span>{feature}</span>
           </li>
         ))}
@@ -126,42 +120,51 @@ const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
 
   return (
-    <section className="bg-black min-h-screen py-20 px-6 flex flex-col items-center">
-      <h2 className="text-4xl font-extrabold mb-8 text-white uppercase tracking-wide">
-        Our Pricing
-      </h2>
+    <section
+      id="pricing"
+      className="bg-black min-h-screen py-24 px-6 flex flex-col items-center"
+    >
+      {/* Section Label */}
+      <div
+        className="relative w-[95%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] 
+      shadow-[0_0_15px_rgba(255,255,255,0.3)] rounded-full mb-10"
+      >
+        <div className="animate-pulse absolute inset-[3px] bg-black rounded-full flex items-center justify-center gap-1 text-white tracking-wider">
+          PRICING
+        </div>
+      </div>
 
+      {/* Billing Toggle */}
       <div className="mb-12 flex space-x-4">
         <button
           onClick={() => setBillingCycle("monthly")}
-          className={`px-6 py-2 font-semibold rounded ${
-            billingCycle === "monthly"
-              ? "bg-lime-400 text-black"
-              : "border border-white text-white"
-          }`}
+          className={`px-6 py-2 font-semibold rounded-full tracking-wide transition-all 
+            ${
+              billingCycle === "monthly"
+                ? "bg-[#e99b63] text-black"
+                : "border border-[#2a2a2a] text-gray-300 hover:bg-[#1a1a1a]"
+            }`}
         >
           Monthly
         </button>
+
         <button
           onClick={() => setBillingCycle("yearly")}
-          className={`px-6 py-2 font-semibold rounded ${
-            billingCycle === "yearly"
-              ? "bg-lime-400 text-black"
-              : "border border-white text-white"
-          }`}
+          className={`px-6 py-2 font-semibold rounded-full tracking-wide transition-all 
+            ${
+              billingCycle === "yearly"
+                ? "bg-[#e99b63] text-black"
+                : "border border-[#2a2a2a] text-gray-300 hover:bg-[#1a1a1a]"
+            }`}
         >
           Yearly
         </button>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 max-w-7xl w-full">
-        {plans.map((plan, idx) => (
-          <PricingCard
-            key={plan.id}
-            plan={plan}
-            billingCycle={billingCycle}
-            gradient={gradients[idx % gradients.length]}
-          />
+      {/* Pricing Cards */}
+      <div className="flex flex-wrap justify-center gap-10 max-w-7xl w-full">
+        {plans.map((plan) => (
+          <PricingCard key={plan.id} plan={plan} billingCycle={billingCycle} />
         ))}
       </div>
     </section>
