@@ -2,7 +2,7 @@ import React from "react";
 import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
 
-const Hero = ({ scrollToPanel }) => {
+const hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
@@ -110,4 +110,4 @@ const Hero = ({ scrollToPanel }) => {
   );
 };
 
-export default Hero;
+export default hero;
