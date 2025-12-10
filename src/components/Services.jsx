@@ -141,7 +141,7 @@ export default function Services() {
           </p>
         </div>
 
-        {/* RIGHT SIDE – VERTICAL SLIDER */}
+        {/*RIGHT SIDE – VERTICAL SLIDER*/}
         <div
           className="flex-1 h-128 overflow-hidden relative z-10 cursor-grab"
           ref={sliderRef}
