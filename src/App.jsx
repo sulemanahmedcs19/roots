@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/Header.jsx";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Blog from "./components/Blog";
