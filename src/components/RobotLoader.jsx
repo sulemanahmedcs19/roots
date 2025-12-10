@@ -1,156 +1,111 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 25 });
-  return (
-    <>
-      {particles.map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-orange-600 opacity-30"
-          style={{
-            width: `${random(5, 12)}px`,
-            height: `${random(5, 12)}px`,
-            top: `${random(0, 100)}%`,
-            left: `${random(0, 100)}%`,
-            filter: "blur(6px)",
-          }}
-          animate={{
-            y: [0, random(-15, 15), 0],
-            x: [0, random(-15, 15), 0],
-            opacity: [0.2, 0.6, 0.2],
-          }}
-          transition={{
-            duration: random(5, 9),
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </>
-  );
+  return Array.from({ length: 25 }).map((_, i) => (
+    <motion.div
+      key={i}
+      className="absolute rounded-full bg-orange-500 opacity-30"
+      style={{
+        width: `${random(6, 14)}px`,
+        height: `${random(6, 14)}px`,
+        top: `${random(0, 100)}%`,
+        left: `${random(0, 100)}%`,
+        filter: "blur(10px)",
+      }}
+      animate={{
+        y: [0, random(-30, 30), 0],
+        x: [0, random(-30, 30), 0],
+        opacity: [0.3, 0.8, 0.3],
+      }}
+      transition={{
+        duration: random(5, 8),
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    />
+  ));
 };
 
-const SplashScreen = ({ onFinish }) => {
-  const [blast, setBlast] = useState(false);
+export default function RobotLoader({ onFinish, scrollToPanel }) {
+  const [slide, setSlide] = useState(false);
+  const audioRef = useRef(new Audio("/enter.mp3"));
 
-  useEffect(() => {
-    const blastTimer = setTimeout(() => setBlast(true), 3500);
-    const finishTimer = setTimeout(() => onFinish(), 4500);
+  const handleEnter = () => {
+    audioRef.current.volume = 0.7;
+    audioRef.current.play();
 
-    return () => {
-      clearTimeout(blastTimer);
-      clearTimeout(finishTimer);
-    };
-  }, [onFinish]);
+    setSlide(true);
+
+    setTimeout(() => {
+      onFinish(); // Hide loader
+      if (scrollToPanel) scrollToPanel(0); // Scroll to first section
+    }, 900);
+  };
 
   return (
-    <div className="relative flex items-center justify-center h-screen bg-[#0a0a0a] overflow-hidden">
+    <motion.div
+      initial={{ y: 0, opacity: 1 }}
+      animate={
+        slide
+          ? { y: "-100%", rotate: 15, scale: 1.2, opacity: 0 }
+          : { y: 0, opacity: 1 }
+      }
+      transition={{ duration: 0.9, ease: "easeInOut" }}
+      className="relative flex items-center justify-center h-screen bg-[#0b0b0b] overflow-hidden"
+    >
       <FloatingParticles />
 
-      {/* Arena */}
-      <div className="w-64 h-64 border-4 border-orange-700 rounded-full flex items-center justify-center relative">
-        {!blast && (
-          <>
-            {/* Robot */}
-            <motion.div
-              animate={{
-                x: [0, 40, -40, 0],
-                y: [0, 40, -40, 0],
-                rotate: [0, 15, -15, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="text-7xl select-none"
-              style={{
-                filter:
-                  "drop-shadow(0 0 12px #ff6f45) drop-shadow(0 0 30px #ff6f45)",
-              }}
-            >
-              🤖
-            </motion.div>
+      <div
+        className="absolute right-0 top-0 w-[60%] h-full"
+        style={{
+          background:
+            "radial-gradient(circle at 80% 50%, rgba(255,120,30,0.25), transparent 70%)",
+          filter: "blur(45px)",
+        }}
+      />
 
-            {/* Laser beams */}
-            {[
-              { top: "-36px", left: "-36px", rotate: 45 },
-              { top: "-36px", right: "-36px", rotate: -45 },
-              { bottom: "-36px", left: "-36px", rotate: -45 },
-              { bottom: "-36px", right: "-36px", rotate: 45 },
-            ].map((pos, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-32 bg-orange-600 rounded"
-                style={pos}
-                animate={{ rotate: [pos.rotate, pos.rotate + 20, pos.rotate] }}
-                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-              />
-            ))}
-          </>
-        )}
+      <motion.div
+        className="absolute w-72 h-72 rounded-full border-4 border-orange-500"
+        style={{
+          boxShadow:
+            "0 0 30px rgba(255,120,30,0.7), inset 0 0 25px rgba(255,120,30,0.9)",
+        }}
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+      />
 
-        {/* Blast */}
-        {blast && (
-          <>
-            <motion.div
-              className="absolute w-32 h-32 bg-orange-700 rounded-full"
-              initial={{ scale: 0, opacity: 1 }}
-              animate={{ scale: 3, opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            />
-            {Array.from({ length: 14 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-4 h-4 bg-orange-500 rounded-full"
-                style={{ top: "50%", left: "50%" }}
-                animate={{
-                  x: [0, random(-110, 110)],
-                  y: [0, random(-110, 110)],
-                  opacity: [1, 0],
-                  scale: [1, 0.5],
-                }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              />
-            ))}
-          </>
-        )}
-      </div>
+      <motion.div
+        style={{
+          width: "70px",
+          height: "70px",
+          background: "linear-gradient(145deg, #232323, #0d0d0d)",
+          borderRadius: "12px",
+          border: "2px solid rgba(255,120,40,0.5)",
+          boxShadow:
+            "0 0 28px rgba(255,120,30,0.8), inset 0 0 25px rgba(255,120,30,0.7)",
+        }}
+        animate={{
+          rotate: [0, 25, -25, 0],
+          scale: [1, 1.15, 1],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-      {/* Loading text */}
-      <motion.h1
-        className="absolute bottom-10 text-orange-400 text-2xl font-semibold tracking-wide"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+      <motion.button
+        onClick={handleEnter}
+        className="absolute bottom-14 px-7 py-3 text-[#0b0b0b] font-semibold rounded-full bg-orange-400 hover:bg-orange-500 transition-all shadow-xl"
+        whileHover={{ scale: 1.07 }}
+        whileTap={{ scale: 0.95 }}
       >
-        Preparing your digital experience...
-      </motion.h1>
-    </div>
+        Click Here To Enter
+      </motion.button>
+    </motion.div>
   );
-};
-
-const HomeContent = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-white text-3xl font-semibold">
-    Welcome to Home Page!
-  </div>
-);
-
-const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
-
-  return (
-    <>
-      <AnimatePresence>
-        {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
-      </AnimatePresence>
-
-      {!showSplash && <HomeContent />}
-    </>
-  );
-};
-
-export default App;
+}

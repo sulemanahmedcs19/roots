@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Header from "./components/header";
-import Hero from "./components/hero";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Services from "./components/Services"; // ⭐ NEW
 import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Pricing from "./components/Pricing";
@@ -19,27 +20,25 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const sections = ["hero", "blog", "contact", "pricing"];
+  // ⭐ UPDATED: Services ko sections me add kar diya
+  const sections = ["hero", "services", "blog", "contact", "pricing"];
+
   const currentIndex = useRef(0);
   const isScrolling = useRef(false);
   const touchStartX = useRef(0);
   const sectionRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // ⭐ Loading animation
   useEffect(() => {
     AOS.init({ duration: 1500, once: true });
-    const timer = setTimeout(() => setLoading(false), 3000);
-    return () => clearTimeout(timer);
   }, []);
 
-  // ⭐ Scroll to panel
+  // ⭐ Scroll function
   const scrollToPanel = (index, updateURL = true) => {
     if (index < 0 || index >= sections.length || !containerRef.current) return;
 
     currentIndex.current = index;
     isScrolling.current = true;
-
     const scrollTo = index * window.innerWidth;
 
     gsap.to(containerRef.current, {
@@ -49,12 +48,13 @@ export default function App() {
       onComplete: () => {
         isScrolling.current = false;
         setActiveIndex(index);
+
         if (updateURL) navigate("/" + sections[index], { replace: true });
       },
     });
   };
 
-  // ⭐ Wheel scroll
+  // ⭐ Mouse wheel navigation
   useEffect(() => {
     if (loading) return;
     const container = containerRef.current;
@@ -63,18 +63,20 @@ export default function App() {
     const handleWheel = (e) => {
       e.preventDefault();
       if (isScrolling.current) return;
+
       if (e.deltaY > 0) scrollToPanel(currentIndex.current + 1);
-      else if (e.deltaY < 0) scrollToPanel(currentIndex.current - 1);
+      else scrollToPanel(currentIndex.current - 1);
     };
 
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
   }, [loading]);
 
-  // ⭐ Arrow keys
+  // ⭐ Arrow keys support
   useEffect(() => {
     const handleKey = (e) => {
       if (isScrolling.current) return;
+
       if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
 
       if (e.key === "ArrowRight" || e.key === "ArrowDown")
@@ -82,11 +84,12 @@ export default function App() {
       else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
         scrollToPanel(currentIndex.current - 1);
     };
+
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  // ⭐ Mobile swipe
+  // ⭐ Mobile swipe support
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -94,36 +97,35 @@ export default function App() {
     const handleTouchStart = (e) => {
       touchStartX.current = e.touches[0].clientX;
     };
+
     const handleTouchEnd = (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchStartX.current - touchEndX;
+      const diff = touchStartX.current - e.changedTouches[0].clientX;
       if (Math.abs(diff) < 75) return;
+
       if (diff > 0) scrollToPanel(currentIndex.current + 1);
       else scrollToPanel(currentIndex.current - 1);
     };
 
     container.addEventListener("touchstart", handleTouchStart);
     container.addEventListener("touchend", handleTouchEnd);
+
     return () => {
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
 
-  // ⭐ Page refresh / URL sync
+  // ⭐ Sync URL on refresh
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
     const path = location.pathname.replace(/\/$/, "");
     const index = sections.findIndex((sec) => "/" + sec === path);
+
     if (index >= 0) {
-      // Scroll only after render
       requestAnimationFrame(() => scrollToPanel(index, false));
     }
   }, [location.pathname]);
 
-  // ⭐ IntersectionObserver to track visible panel and update active dot
+  // ⭐ Intersection observer for active indicator
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -139,36 +141,44 @@ export default function App() {
           }
         });
       },
-      { root: containerRef.current, threshold: 0.5 }
+      {
+        root: containerRef.current,
+        threshold: 0.5,
+      }
     );
 
-    sectionRefs.current.forEach((sec) => {
-      if (sec) observer.observe(sec);
-    });
+    sectionRefs.current.forEach((sec) => sec && observer.observe(sec));
 
     return () => {
-      sectionRefs.current.forEach((sec) => {
-        if (sec) observer.unobserve(sec);
-      });
+      sectionRefs.current.forEach((sec) => sec && observer.unobserve(sec));
     };
-  }, [sections, navigate]);
+  }, []);
 
-  if (loading) return <RobotLoader />;
+  // ⭐ Loader
+  if (loading)
+    return (
+      <RobotLoader
+        onFinish={() => setLoading(false)}
+        scrollToPanel={scrollToPanel}
+      />
+    );
 
   const panelStyle = "w-screen h-screen flex-shrink-0 relative";
 
   return (
     <div className="overflow-hidden w-screen h-screen relative">
-      {/* Fixed Header */}
+      {/* Header */}
       <div className="fixed top-0 left-0 w-screen z-50">
-        <Header />
+        <Header scrollToPanel={scrollToPanel} />
       </div>
 
+      {/* Main Sections */}
       <main
         ref={containerRef}
         className="flex w-screen h-screen overflow-x-hidden overflow-y-hidden"
       >
-        {[Hero, Blog, Contact, Pricing].map((Component, idx) => (
+        {/* ⭐ UPDATED: Services added here */}
+        {[Hero, Services, Blog, Contact, Pricing].map((Component, idx) => (
           <section
             key={idx}
             ref={(el) => (sectionRefs.current[idx] = el)}
@@ -180,8 +190,8 @@ export default function App() {
         ))}
       </main>
 
-      {/* ⭐ Bottom Dots Navigation */}
-      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-4">
+      {/* Right Side Dots Navigation */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
         {sections.map((_, idx) => (
           <button
             key={idx}

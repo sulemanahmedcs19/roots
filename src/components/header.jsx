@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 
-const Header = () => {
+const Header = ({ scrollToPanel }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
 
-  // Slide-down animation on page load
+  // Slide-down animation
   useEffect(() => {
     setTimeout(() => setAnimate(true), 50);
   }, []);
+
+  // 👇 Home ke baad Services add kiya (same style as Blog & Contact)
+  const sections = ["Home", "Services", "Blog", "Contact", "Pricing"];
+
+  const handleNavClick = (index, e) => {
+    e.preventDefault();
+    if (scrollToPanel) scrollToPanel(index);
+    setMenuOpen(false);
+  };
 
   return (
     <header
@@ -25,43 +34,19 @@ const Header = () => {
           className="w-18 h-12 rounded-md shadow-[0_0_20px_rgba(233,155,99,0.35)]"
         />
 
-        {/* Desktop Navigation (centered) */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-14 mx-auto">
-          <a
-            className="px-4 py-2 rounded-full border border-[#2a2a2a] 
-            hover:border-[#e99b63] hover:bg-[#111] transition-all 
-            tracking-wider text-gray-300 hover:text-[#e99b63]"
-            href="#home"
-          >
-            Home
-          </a>
-
-          <a
-            className="px-4 py-2 rounded-full border border-[#2a2a2a] 
-            hover:border-[#e99b63] hover:bg-[#111] transition-all 
-            tracking-wider text-gray-300 hover:text-[#e99b63]"
-            href="#blog"
-          >
-            Blog
-          </a>
-
-          <a
-            className="px-4 py-2 rounded-full border border-[#2a2a2a] 
-            hover:border-[#e99b63] hover:bg-[#111] transition-all 
-            tracking-wider text-gray-300 hover:text-[#e99b63]"
-            href="#contact"
-          >
-            Contact
-          </a>
-
-          <a
-            className="px-4 py-2 rounded-full border border-[#2a2a2a] 
-            hover:border-[#e99b63] hover:bg-[#111] transition-all 
-            tracking-wider text-gray-300 hover:text-[#e99b63]"
-            href="#pricing"
-          >
-            Pricing
-          </a>
+          {sections.map((label, idx) => (
+            <button
+              key={idx}
+              onClick={(e) => handleNavClick(idx, e)}
+              className="px-4 py-2 rounded-full border border-[#2a2a2a] 
+                hover:border-[#e99b63] hover:bg-[#111] transition-all 
+                tracking-wider text-gray-300 hover:text-[#e99b63]"
+            >
+              {label}
+            </button>
+          ))}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -77,41 +62,16 @@ const Header = () => {
       {menuOpen && (
         <div className="fixed top-16 right-0 left-0 p-5 bg-black/80 backdrop-blur-lg md:hidden z-40 border-t border-[#1a1a1a] shadow-[0_0_20px_rgba(233,155,99,0.25)]">
           <nav className="flex flex-col gap-6 items-center text-white">
-            <a
-              className="px-5 py-3 rounded-full border border-[#2a2a2a] 
-              hover:border-[#e99b63] hover:bg-[#111] transition-all text-gray-300 hover:text-[#e99b63]"
-              href="#home"
-              onClick={() => setMenuOpen(false)}
-            >
-              Home
-            </a>
-
-            <a
-              className="px-5 py-3 rounded-full border border-[#2a2a2a] 
-              hover:border-[#e99b63] hover:bg-[#111] transition-all text-gray-300 hover:text-[#e99b63]"
-              href="#blog"
-              onClick={() => setMenuOpen(false)}
-            >
-              Blog
-            </a>
-
-            <a
-              className="px-5 py-3 rounded-full border border-[#2a2a2a] 
-              hover:border-[#e99b63] hover:bg-[#111] transition-all text-gray-300 hover:text-[#e99b63]"
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact
-            </a>
-
-            <a
-              className="px-5 py-3 rounded-full border border-[#2a2a2a] 
-              hover:border-[#e99b63] hover:bg-[#111] transition-all text-gray-300 hover:text-[#e99b63]"
-              href="#pricing"
-              onClick={() => setMenuOpen(false)}
-            >
-              Pricing
-            </a>
+            {sections.map((label, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => handleNavClick(idx, e)}
+                className="px-5 py-3 rounded-full border border-[#2a2a2a] 
+                  hover:border-[#e99b63] hover:bg-[#111] transition-all text-gray-300 hover:text-[#e99b63]"
+              >
+                {label}
+              </button>
+            ))}
           </nav>
         </div>
       )}
