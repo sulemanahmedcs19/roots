@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 
-const Header = ({ scrollToPanel }) => {
+const header = ({ scrollToPanel }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
 
@@ -79,4 +79,4 @@ const Header = ({ scrollToPanel }) => {
   );
 };
 
-export default Header;
+export default header;
