@@ -1,111 +1,102 @@
-import React, { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const random = (min, max) => Math.random() * (max - min) + min;
+export default function VideoLoader({ onFinish }) {
+  const audioRef = useRef(null);
+  const [showLoader, setShowLoader] = useState(true);
 
-const FloatingParticles = () => {
-  return Array.from({ length: 25 }).map((_, i) => (
-    <motion.div
-      key={i}
-      className="absolute rounded-full bg-orange-500 opacity-30"
-      style={{
-        width: `${random(6, 14)}px`,
-        height: `${random(6, 14)}px`,
-        top: `${random(0, 100)}%`,
-        left: `${random(0, 100)}%`,
-        filter: "blur(10px)",
-      }}
-      animate={{
-        y: [0, random(-30, 30), 0],
-        x: [0, random(-30, 30), 0],
-        opacity: [0.3, 0.8, 0.3],
-      }}
-      transition={{
-        duration: random(5, 8),
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    />
-  ));
-};
+  useEffect(() => {
+    // 3 sec ke baad exit animation start karenge
+    const timer = setTimeout(() => {
+      setShowLoader(false); // AnimatePresence se exit animation trigger hoga
+    }, 3000);
 
-export default function RobotLoader({ onFinish, scrollToPanel }) {
-  const [slide, setSlide] = useState(false);
-  const audioRef = useRef(new Audio("/enter.mp3"));
+    return () => clearTimeout(timer);
+  }, []);
 
-  const handleEnter = () => {
-    audioRef.current.volume = 0.7;
-    audioRef.current.play();
+  // Jab exit animation complete ho jaye tab ye function call hoga
+  function handleAnimationComplete() {
+    // Scroll smoothly up
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-    setSlide(true);
+    // Play sound (user interaction hona chahiye browser me)
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {
+        // Agar autoplay block ho to error handle kar lo
+        console.log("Sound play blocked by browser");
+      });
+    }
 
-    setTimeout(() => {
-      onFinish(); // Hide loader
-      if (scrollToPanel) scrollToPanel(0); // Scroll to first section
-    }, 900);
+    // onFinish call karo animation ke baad
+    if (typeof onFinish === "function") {
+      onFinish();
+    }
+  }
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 1.5, ease: "easeOut" },
+    },
+    exit: {
+      opacity: 0,
+      y: -30,
+      transition: { duration: 1 },
+    },
+  };
+
+  const colorAnimation = {
+    color: [
+      "#f57c00", // warm orange
+      "#bf360c", // dark orange / brownish
+      "#ffb74d", // light orange
+      "#f57c00",
+    ],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      repeatType: "loop",
+      ease: "easeInOut",
+    },
   };
 
   return (
-    <motion.div
-      initial={{ y: 0, opacity: 1 }}
-      animate={
-        slide
-          ? { y: "-100%", rotate: 15, scale: 1.2, opacity: 0 }
-          : { y: 0, opacity: 1 }
-      }
-      transition={{ duration: 0.9, ease: "easeInOut" }}
-      className="relative flex items-center justify-center h-screen bg-[#0b0b0b] overflow-hidden"
-    >
-      <FloatingParticles />
+    <>
+      <AnimatePresence>
+        {showLoader && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={textVariants}
+            onAnimationComplete={(definition) => {
+              if (definition === "exit") {
+                handleAnimationComplete();
+              }
+            }}
+            className="relative w-full h-screen flex items-center justify-center"
+            style={{
+              background: "radial-gradient(circle, #1a0a00, #000000 80%)",
+            }}
+          >
+            <motion.h1
+              animate={colorAnimation}
+              className="text-5xl md:text-7xl font-bold text-center tracking-wide"
+              style={{
+                fontFamily: "'Poppins', sans-serif",
+                textShadow: "0 0 8px #f57c00, 0 0 15px #bf360c",
+              }}
+            >
+              Welcome to HubStudioDigitals
+            </motion.h1>
 
-      <div
-        className="absolute right-0 top-0 w-[60%] h-full"
-        style={{
-          background:
-            "radial-gradient(circle at 80% 50%, rgba(255,120,30,0.25), transparent 70%)",
-          filter: "blur(45px)",
-        }}
-      />
-
-      <motion.div
-        className="absolute w-72 h-72 rounded-full border-4 border-orange-500"
-        style={{
-          boxShadow:
-            "0 0 30px rgba(255,120,30,0.7), inset 0 0 25px rgba(255,120,30,0.9)",
-        }}
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-      />
-
-      <motion.div
-        style={{
-          width: "70px",
-          height: "70px",
-          background: "linear-gradient(145deg, #232323, #0d0d0d)",
-          borderRadius: "12px",
-          border: "2px solid rgba(255,120,40,0.5)",
-          boxShadow:
-            "0 0 28px rgba(255,120,30,0.8), inset 0 0 25px rgba(255,120,30,0.7)",
-        }}
-        animate={{
-          rotate: [0, 25, -25, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      <motion.button
-        onClick={handleEnter}
-        className="absolute bottom-14 px-7 py-3 text-[#0b0b0b] font-semibold rounded-full bg-orange-400 hover:bg-orange-500 transition-all shadow-xl"
-        whileHover={{ scale: 1.07 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        Click Here To Enter
-      </motion.button>
-    </motion.div>
+            <audio ref={audioRef} src="/enter.mp3" preload="auto" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

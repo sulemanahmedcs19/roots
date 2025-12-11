@@ -2,7 +2,7 @@ import React from "react";
 import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
 
-const hero = ({ scrollToPanel }) => {
+const Hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
@@ -15,6 +15,16 @@ const hero = ({ scrollToPanel }) => {
         text-white
       "
     >
+      {/* Background Video */}
+      <video
+        src="/videos/bg.mp4" // Ensure this path is correct
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="fixed top-0 left-0 w-full h-full object-cover z-0"
+      />
+
       {/* Left Content */}
       <div className="max-w-xl z-10 flex flex-col justify-center space-y-8 text-left lg:text-left lg:flex-1">
         {/* Tag Box */}
@@ -110,4 +120,4 @@ const hero = ({ scrollToPanel }) => {
   );
 };
 
-export default hero;
+export default Hero;
