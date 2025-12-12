@@ -72,8 +72,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
   return (
     <div
       className={`rounded-2xl w-72 h-96 
-      bg-[#0f0a07] border border-[#2e241d]
-      shadow-[0_0_18px_rgba(255,132,37,0.28)]
+      bg-transparent border border-[#ff8c32]/40
       p-6 text-[#e8d7c7]
       transition-all duration-500 cursor-pointer
       ${
@@ -83,14 +82,12 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
       }`}
       style={{ userSelect: "none" }}
     >
-      {/* Title */}
       <h3 className="text-2xl font-bold tracking-wide mb-1 text-[#ff8c32]">
         {plan.title}
       </h3>
 
       <p className="text-[#b8997f] mb-3 text-sm">{plan.description}</p>
 
-      {/* Price */}
       <div className="text-4xl font-extrabold mb-1 text-[#ff8c32]">
         ${price}
       </div>
@@ -109,12 +106,10 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
         {billingCycle === "monthly" ? "BILLED MONTHLY" : "BILLED YEARLY"}
       </div>
 
-      {/* Button */}
       <button className="bg-[#ff8c32] text-black font-semibold w-full rounded-full py-2 mb-5 tracking-wide hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,132,37,0.55)]">
         {plan.buttonText}
       </button>
 
-      {/* Features */}
       <ul className="text-sm space-y-1 text-[#e7d5c3]">
         {plan.features.map((feature, idx) => (
           <li key={idx} className="flex items-start gap-2">
@@ -208,13 +203,11 @@ const Pricing = () => {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onClick={handleBackgroundClick}
-      className="bg-gradient-to-b 
-      from-[#0c0806] via-[#120d0a] to-[#1d140e]
-      min-h-screen py-24 px-6 flex flex-col items-center text-white"
+      className="bg-transparent min-h-screen py-24 px-6 flex flex-col items-center text-white"
     >
       {/* PRICING BADGE */}
-      <div className="relative w-[95%] sm:w-48 h-10 bg-[#ff8c32] shadow-[0_0_25px_rgba(255,132,37,0.7)] rounded-full mb-10">
-        <div className="absolute inset-[3px] bg-black border border-[#ff8c32] rounded-full flex items-center justify-center gap-1 text-[#ff8c32] tracking-wider font-semibold">
+      <div className="relative w-[95%] sm:w-48 h-10 bg-transparent border border-[#ff8c32] rounded-full mb-10">
+        <div className="absolute inset-[3px] bg-transparent border border-[#ff8c32] rounded-full flex items-center justify-center gap-1 text-[#ff8c32] tracking-wider font-semibold">
           PRICING
         </div>
       </div>
@@ -226,7 +219,7 @@ const Pricing = () => {
           className={`px-6 py-2 font-semibold rounded-full tracking-wide transition-all ${
             billingCycle === "monthly"
               ? "bg-[#ff8c32] text-black shadow-[0_0_20px_rgba(255,132,37,0.7)]"
-              : "border border-[#3a2b21] text-[#c8b39e] hover:bg-[#1a130e]"
+              : "border border-[#ff8c32] text-[#e8d7c7]"
           }`}
         >
           Monthly
@@ -237,7 +230,7 @@ const Pricing = () => {
           className={`px-6 py-2 font-semibold rounded-full tracking-wide transition-all ${
             billingCycle === "yearly"
               ? "bg-[#ff8c32] text-black shadow-[0_0_20px_rgba(255,132,37,0.7)]"
-              : "border border-[#3a2b21] text-[#c8b39e] hover:bg-[#1a130e]"
+              : "border border-[#ff8c32] text-[#e8d7c7]"
           }`}
         >
           Yearly

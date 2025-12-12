@@ -57,7 +57,6 @@ export default function Services() {
   const [activeIndex, setActiveIndex] = useState(null);
   const sliderRef = useRef(null);
 
-  // Mouse drag scroll
   const isDragging = useRef(false);
   const startY = useRef(0);
   const scrollTop = useRef(0);
@@ -87,7 +86,6 @@ export default function Services() {
     } else {
       setActiveIndex(index);
 
-      // Scroll the card into view at the top
       if (card) {
         const cardTop = card.offsetTop;
         slider.scrollTo({
@@ -98,17 +96,15 @@ export default function Services() {
     }
   };
 
-  // Infinite auto-scroll
   useEffect(() => {
-    if (activeIndex !== null) return; // pause scroll if a card is active
+    if (activeIndex !== null) return;
 
     const slider = sliderRef.current;
     let animationFrameId;
 
     const scroll = () => {
-      slider.scrollTop += 1; // scroll speed, adjust as needed
+      slider.scrollTop += 1;
 
-      // Reset scroll when reaching the duplicated content
       if (slider.scrollTop >= slider.scrollHeight / 2) {
         slider.scrollTop = 0;
       }
@@ -122,8 +118,8 @@ export default function Services() {
   }, [activeIndex]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-16 bg-black text-white relative">
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-start md:items-center gap-20 bg-black/60 p-8 rounded-xl">
+    <div className="w-full h-full flex items-center justify-center px-16 text-white relative">
+      <div className="max-w-7xl w-full flex flex-col md:flex-row items-start md:items-center gap-20 p-8 rounded-xl">
         {/* LEFT SIDE */}
         <div className="flex-1 text-left space-y-6 z-10">
           <button className="px-6 py-2 rounded-full border border-[#3a3a3a] bg-black/40 backdrop-blur-lg text-gray-300 hover:text-[#e99b63] transition-all">
@@ -135,13 +131,13 @@ export default function Services() {
             <span className="text-[#e99b63]"> DIGITAL EXPERIENCES</span>
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-gray-300 text-lg leading-relaxed">
             We design and develop modern creative solutions for brands. Stunning
             front-end visuals and clean UI design bring your ideas to life.
           </p>
         </div>
 
-        {/*RIGHT SIDE – VERTICAL SLIDER*/}
+        {/* RIGHT SIDE – VERTICAL SLIDER */}
         <div
           className="flex-1 h-128 overflow-hidden relative z-10 cursor-grab"
           ref={sliderRef}
@@ -158,7 +154,7 @@ export default function Services() {
                   key={index}
                   onClick={() => handleCardClick(index)}
                   className={`p-6 rounded-2xl cursor-pointer transition-all duration-700 ease-in-out transform ${
-                    isActive ? "scale-105 h-96" : "h-28 bg-[#0b0b0b]/90"
+                    isActive ? "scale-105 h-96" : "h-28"
                   }`}
                   style={{
                     backgroundImage: isActive
@@ -169,7 +165,9 @@ export default function Services() {
                     position: "relative",
                   }}
                 >
-                  <div className="absolute inset-0 bg-black/50 rounded-2xl"></div>
+                  {isActive && (
+                    <div className="absolute inset-0 bg-black/50 rounded-2xl"></div>
+                  )}
 
                   <div className="relative z-10 flex flex-col justify-center h-full">
                     <h2 className="text-2xl font-bold mb-2 text-[#e99b63]">

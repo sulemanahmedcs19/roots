@@ -22,7 +22,7 @@ const Contact = () => {
       id="contact"
       className="min-h-screen px-6 lg:px-40 py-32 
                  text-white 
-                 bg-gradient-to-b from-[#0a0705] to-[#1c120c]"
+                 bg-transparent"
     >
       {/* Animated Heading */}
       <div ref={headingRef} className="overflow-hidden mb-20">
