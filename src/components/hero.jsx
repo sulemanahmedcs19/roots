@@ -61,7 +61,7 @@ const Hero = ({ scrollToPanel }) => {
 
           <button
             className="border border-[#2a2a2a] py-2 sm:py-3 px-6 sm:px-8 rounded-full text-sm sm:text-base font-semibold tracking-wide bg-gray-300 text-black hover:bg-[#1a1a1a] hover:text-white transition-all"
-            onClick={() => scrollToPanel(2)}
+            onClick={() => scrollToPanel(1)}
           >
             Get Started <i className="bx bx-link-external ml-1"></i>
           </button>
