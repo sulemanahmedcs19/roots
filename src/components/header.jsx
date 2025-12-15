@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 
-const header = ({ scrollToPanel }) => {
+const Header = ({ scrollToPanel }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
 
@@ -10,8 +10,15 @@ const header = ({ scrollToPanel }) => {
     setTimeout(() => setAnimate(true), 50);
   }, []);
 
-  // 👇 Home ke baad Services add kiya (same style as Blog & Contact)
-  const sections = ["Home", "Services", "Blog", "Contact", "Pricing"];
+  // Sections + Portfolio added at the end
+  const sections = [
+    "Home",
+    "Services",
+    "Blog",
+    "Contact",
+    "Pricing",
+    "Portfolio",
+  ];
 
   const handleNavClick = (index, e) => {
     e.preventDefault();
@@ -79,4 +86,4 @@ const header = ({ scrollToPanel }) => {
   );
 };
 
-export default header;
+export default Header;

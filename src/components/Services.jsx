@@ -1,4 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import webImg from "../assets/services/web.jpg";
+import customImg from "../assets/services/custom.jpg";
+import mobileImg from "../assets/services/mobile.jpg";
+import brandingImg from "../assets/services/Branding.jpg";
+import motionImg from "../assets/services/Motion.PNG";
+import uiImg from "../assets/services/UIdesign.PNG";
 
 export default function Services() {
   const services = [
@@ -7,50 +13,44 @@ export default function Services() {
       description:
         "Creative and responsive website designs to impress your audience.",
       paragraph:
-        "We craft websites that are visually appealing, responsive on all devices, and designed to engage your audience. Using modern design principles, your website will stand out while maintaining optimal performance.",
-      bgImage:
-        "https://images.unsplash.com/photo-1581091215362-1c87c3f12a1d?auto=format&fit=crop&w=1470&q=80",
+        "Website design plays a major role in how users perceive your business online. At HubStudioDigital, we design websites that look clean, modern, and easy to navigate. A well-structured website helps users understand your services quickly and builds credibility from the first visit.We focus on layout balance, readable typography, and user-friendly navigation. Every section is designed to guide visitors smoothly through content without overwhelming them. Our designs support fast loading, mobile responsiveness, and clear visual hierarchy.A good website design improves engagement and encourages users to explore more pages. We ensure your website communicates professionalism while delivering a smooth browsing experience that supports your business goals.",
+      bgImage: webImg,
     },
     {
       title: "Custom Website Development",
       description: "Tailored web solutions with high performance and security.",
       paragraph:
-        "Our team develops custom websites with scalable architecture, secure coding practices, and fast-loading features. Every project is tailored to your business needs and growth.",
-      bgImage:
-        "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1470&q=80",
+        "Custom website design allows businesses to create a unique digital presence that stands apart from generic templates. At HubStudioDigital, we design websites based on specific business needs, user behavior, and content structure.We build layouts that align with your brand identity and functionality requirements. From custom sections to interactive elements, every part of the website is designed with purpose. Custom design gives flexibility, better performance, and stronger visual consistency.Our focus is on clarity, scalability, and long-term usability. A custom website design helps businesses grow without limitations and ensures the website remains adaptable as needs evolve.",
+      bgImage: customImg,
     },
     {
       title: "Mobile App Design",
       description: "User-friendly mobile interfaces for iOS and Android apps.",
       paragraph:
-        "We design mobile apps that offer seamless user experience, attractive interface, and smooth navigation. Apps are optimized for both iOS and Android devices.",
-      bgImage:
-        "https://images.unsplash.com/photo-1587825140708-6c4f08b9d7f7?auto=format&fit=crop&w=1470&q=80",
+        "Mobile app design requires a deep understanding of user behavior and screen interaction. At HubStudioDigital, we design mobile interfaces that feel smooth, intuitive, and visually balanced. Every screen is designed with usability and performance in mind.We focus on clear navigation, readable layouts, and consistent design patterns that help users move through the app without confusion. Our designs support both functionality and aesthetics, ensuring the app looks professional while remaining easy to use.From onboarding screens to interactive elements, we design experiences that keep users engaged. Mobile app design is not just about appearance; it is about creating flows that feel natural and responsive. Our approach helps businesses deliver apps that users enjoy using repeatedly.",
+      bgImage: mobileImg,
     },
     {
       title: "Branding Services",
       description: "Logo, brand identity, and visual design for your brand.",
       paragraph:
-        "We build strong brand identities through logos, color schemes, and visual design. Every element is designed to reflect your brand’s personality and resonate with your audience.",
-      bgImage:
-        "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1470&q=80",
+        "Branding is not just about visuals, it is about how people recognize, remember, and trust your business. At HubStudioDigital, we focus on building brand identities that feel clear, confident, and consistent across every digital touchpoint. From brand voice to visual direction, every element is designed to communicate purpose and credibility.We help businesses define their brand personality, color systems, typography, and overall identity in a way that aligns with their audience’s expectations. A strong brand reduces confusion, increases recognition, and creates emotional connection with users. When people understand your brand instantly, they are more likely to engage and convert.Our branding process is built around clarity and usability. Whether you are launching a new business or refining an existing one, we ensure your brand looks professional and communicates the right message on websites, social platforms, and marketing materials. The goal is to create a brand presence that feels reliable, modern, and easy to recognize in competitive digital spaces.",
+      bgImage: brandingImg,
     },
     {
       title: "Motion Design",
       description: "Engaging animations and motion graphics for your projects.",
       paragraph:
-        "Our motion design services create dynamic animations, video content, and interactive graphics that capture attention and communicate your message effectively.",
-      bgImage:
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1470&q=80",
+        "Motion design adds life to your digital presence and helps communicate ideas faster than static visuals. At HubStudioDigital, we create motion graphics that improve engagement and guide users through content naturally. Smooth animations help explain services, highlight key messages, and keep attention where it matters most.We design motion elements for websites, social media, ads, and digital presentations. Every movement is purposeful, clean, and aligned with your brand identity. Motion design is especially effective for storytelling, product highlights, and promotional content where clarity and impact are essential.Good motion design improves user experience by making content easier to understand and more enjoyable to interact with. Instead of overwhelming users, our approach focuses on balance, timing, and visual flow. This results in animations that feel professional and meaningful rather than distracting. Motion design helps brands stand out while maintaining a polished digital image.",
+      bgImage: motionImg,
     },
     {
       title: "UI/UX Design",
       description:
         "Clean and intuitive user interfaces with top-notch experience.",
       paragraph:
-        "We design user interfaces and experiences that are intuitive, visually appealing, and highly functional. Every design is user-centered and tailored to your product’s needs.",
-      bgImage:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1470&q=80",
+        "UI/UX design is about creating digital experiences that feel simple, intuitive, and user-friendly. At HubStudioDigital, we focus on how users think, navigate, and interact with digital products. A well-designed interface reduces friction and makes every action feel natural.We design layouts that guide users clearly from one step to the next. From button placement to content hierarchy, every decision is made to improve usability and engagement. Good UX design helps users find what they need quickly, while strong UI design ensures the interface looks clean and modern.Our UI/UX process prioritizes accessibility, clarity, and responsiveness. Whether it’s a website or a mobile application, we ensure the design works smoothly across devices. The result is a digital experience that feels effortless, builds trust, and encourages users to stay longer and take action.",
+      bgImage: uiImg,
     },
   ];
 
