@@ -1,4 +1,3 @@
-// App.jsx (updated scroll fix)
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/header";
@@ -38,6 +37,14 @@ export default function App() {
   const touchStartX = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     AOS.init({ duration: 1500, once: true });
   }, []);
@@ -47,7 +54,8 @@ export default function App() {
       index < 0 ||
       index >= sections.length ||
       !containerRef.current ||
-      isModalOpen
+      isModalOpen ||
+      isMobile
     )
       return;
 
@@ -66,20 +74,21 @@ export default function App() {
     });
   };
 
-  // ✅ Disable scroll when modal open
+  // Disable scroll when modal open
   useEffect(() => {
     if (isModalOpen) {
-      document.body.style.overflow = "hidden"; // Disable body scroll
-      if (containerRef.current) containerRef.current.style.overflow = "hidden"; // Disable main scroll
+      document.body.style.overflow = "hidden";
+      if (containerRef.current) containerRef.current.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // Enable body scroll
-      if (containerRef.current) containerRef.current.style.overflow = "hidden"; // main remains controlled by GSAP
+      document.body.style.overflow = "auto";
+      if (containerRef.current)
+        containerRef.current.style.overflow = isMobile ? "auto" : "hidden";
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, isMobile]);
 
-  // Mouse wheel
+  // Mouse wheel (desktop only)
   useEffect(() => {
-    if (loading) return;
+    if (loading || isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -93,10 +102,11 @@ export default function App() {
 
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
-  }, [loading, isModalOpen]);
+  }, [loading, isModalOpen, isMobile]);
 
-  // Arrow keys
+  // Arrow keys (desktop only)
   useEffect(() => {
+    if (isMobile) return;
     const handleKey = (e) => {
       if (isModalOpen) return;
       if (isScrolling.current) return;
@@ -110,10 +120,11 @@ export default function App() {
 
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [isModalOpen]);
+  }, [isModalOpen, isMobile]);
 
-  // Touch swipe
+  // Touch swipe (desktop only)
   useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -138,7 +149,7 @@ export default function App() {
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, isMobile]);
 
   // Sync URL on refresh
   useEffect(() => {
@@ -148,7 +159,7 @@ export default function App() {
     if (index >= 0) {
       requestAnimationFrame(() => scrollToPanel(index, false));
     }
-  }, [location.pathname]);
+  }, [location.pathname, isMobile]);
 
   // Intersection observer
   useEffect(() => {
@@ -183,7 +194,9 @@ export default function App() {
     );
   }
 
-  const panelStyle = "w-screen h-screen flex-shrink-0 relative";
+  const panelStyle = isMobile
+    ? "w-full h-auto relative" // Mobile vertical
+    : "w-screen h-screen flex-shrink-0 relative"; // Desktop horizontal
 
   return (
     <div className="overflow-hidden w-screen h-screen relative">
@@ -193,7 +206,9 @@ export default function App() {
 
       <main
         ref={containerRef}
-        className="flex w-screen h-screen overflow-x-hidden overflow-y-hidden"
+        className={`flex ${
+          isMobile ? "flex-col overflow-y-auto" : "flex-row overflow-x-hidden"
+        } w-screen h-screen`}
       >
         {[Hero, Services, Blog, Contact, Pricing, Portfolio].map(
           (Component, idx) => (
@@ -216,21 +231,23 @@ export default function App() {
         )}
       </main>
 
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
-          {sections.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollToPanel(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                activeIndex === idx
-                  ? "w-10 bg-[#ff8c32]"
-                  : "w-4 bg-gray-500 hover:bg-gray-300"
-              }`}
-            />
-          ))}
+      {!isMobile && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+          <div className="flex gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
+            {sections.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollToPanel(idx)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === idx
+                    ? "w-10 bg-[#ff8c32]"
+                    : "w-4 bg-gray-500 hover:bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
