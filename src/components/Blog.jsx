@@ -70,7 +70,7 @@ const Blog = ({ setModalOpen }) => {
       {/* ⬇️ TOP PADDING ZYADA KI */}
       <section className="px-4 lg:px-16 pt-24 pb-16 text-white max-w-[1200px] mx-auto space-y-12">
         {/* ⬇️ BADGE KO NEECHE KIYA */}
-        <div className="w-40 h-9 border border-[#e99b63] rounded-full mx-auto mt-6 flex items-center justify-center text-[#e99b63] font-semibold">
+        <div className="animate-pulse 0w-40 h-9 border border-[#e99b63] rounded-full mx-auto mt-6 flex items-center justify-center text-[#e99b63] font-semibold">
           BLOGS
         </div>
 
@@ -98,6 +98,7 @@ const Blog = ({ setModalOpen }) => {
                 h-[210px]
                 sm:h-[230px]
                 lg:h-[250px]
+                
               "
             >
               <img

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-// ✅ Import Web Design images
+/* ================= IMAGES & VIDEOS ================= */
+
+// Web Design
 import web1 from "../assets/web/web1.png";
 import web2 from "../assets/web/web2.png";
 import web3 from "../assets/web/web3.png";
@@ -10,13 +12,13 @@ import web6 from "../assets/web/web6.png";
 import web7 from "../assets/web/web7.png";
 import web8 from "../assets/web/web8.png";
 
-// ✅ Import Branding videos
+// Branding
 import brand1 from "../assets/Branding/brand1.mp4";
 import brand2 from "../assets/Branding/brand2.mp4";
 import brand3 from "../assets/Branding/brand3.mp4";
 import brand4 from "../assets/Branding/brand4.mp4";
 
-// ✅ Import Mobile App images
+// Mobile
 import mobile1 from "../assets/Mobile/mobile1.png";
 import mobile2 from "../assets/Mobile/mobile2.png";
 import mobile3 from "../assets/Mobile/mobile3.png";
@@ -24,7 +26,7 @@ import mobile4 from "../assets/Mobile/mobile4.png";
 import mobile5 from "../assets/Mobile/mobile5.png";
 import mobile6 from "../assets/Mobile/mobile6.png";
 
-// ✅ Import UI/UX images
+// UI/UX
 import ui1 from "../assets/UI/ui1.png";
 import ui2 from "../assets/UI/ui2.png";
 import ui3 from "../assets/UI/ui3.png";
@@ -32,8 +34,9 @@ import ui4 from "../assets/UI/ui4.png";
 import ui5 from "../assets/UI/ui5.png";
 import ui6 from "../assets/UI/ui6.png";
 
+/* ================= PROJECT DATA ================= */
+
 const projectsData = [
-  // Web Design
   {
     id: 1,
     category: "Web Design",
@@ -91,7 +94,6 @@ const projectsData = [
     type: "image",
   },
 
-  // Branding videos
   {
     id: 9,
     category: "Branding",
@@ -121,7 +123,6 @@ const projectsData = [
     type: "video",
   },
 
-  // Mobile App images
   {
     id: 13,
     category: "Mobile App",
@@ -165,7 +166,6 @@ const projectsData = [
     type: "image",
   },
 
-  // UI/UX images
   {
     id: 19,
     category: "UI/UX Design",
@@ -210,139 +210,123 @@ const projectsData = [
   },
 ];
 
-const Portfolio = () => {
+/* ================= COMPONENT ================= */
+
+const Portfolio = ({ setModalOpen }) => {
   const categories = ["Web Design", "Branding", "UI/UX Design", "Mobile App"];
-  const [selectedCategory, setSelectedCategory] = useState("Web Design"); // Default
-  const [visible, setVisible] = useState(false);
-  const [buttonsVisible, setButtonsVisible] = useState([
-    false,
-    false,
-    false,
-    false,
-  ]);
+
+  const [selectedCategory, setSelectedCategory] = useState("Web Design");
   const [activeProject, setActiveProject] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setVisible(true), 100);
-    categories.forEach((_, index) => {
-      setTimeout(() => {
-        setButtonsVisible((prev) => {
-          const newState = [...prev];
-          newState[index] = true;
-          return newState;
-        });
-      }, 400 + index * 200);
-    });
+    setTimeout(() => setVisible(true), 150);
   }, []);
 
-  // ✅ Disable background scroll when modal is open
   useEffect(() => {
-    document.body.style.overflow = activeProject ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto"; // Cleanup
-    };
-  }, [activeProject]);
+    if (setModalOpen) setModalOpen(activeProject !== null);
+  }, [activeProject, setModalOpen]);
 
-  const filteredProjects = selectedCategory
-    ? projectsData.filter((p) => p.category === selectedCategory)
-    : [];
+  const filteredProjects = projectsData.filter(
+    (p) => p.category === selectedCategory
+  );
 
   return (
     <div
-      className={`w-full h-full px-4 lg:px-16 py-16 text-white flex flex-col items-center justify-start overflow-y-auto transition-opacity duration-1000 ${
+      className={`w-full h-full px-8 py-16 text-white transition-opacity duration-1000 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-8 mt-12 text-[#e99b63]">
+      {/* Title */}
+      <h2 className="text-5xl font-bold text-center mb-12 mt-12 text-[#e99b63]">
         Creative Portfolio
       </h2>
 
-      {/* Category Buttons */}
-      <div className="flex flex-wrap gap-4 justify-center mb-12">
-        {categories.map((cat, idx) => (
+      {/* Categories */}
+      <div className="flex justify-center gap-4 mb-12">
+        {categories.map((cat) => (
           <button
-            key={idx}
-            onClick={() =>
-              setSelectedCategory((prev) => (prev === cat ? null : cat))
-            }
-            className={`px-6 py-3 rounded-full border border-[#e99b63] font-semibold hover:bg-[#e99b63] hover:text-black transition-all duration-700 ${
-              buttonsVisible[idx]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-5"
-            } ${
-              selectedCategory === cat
-                ? "bg-[#e99b63] text-black"
-                : "bg-transparent text-[#e99b63]"
-            }`}
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-6 py-3 rounded-full border border-[#e99b63] font-semibold transition
+              ${
+                selectedCategory === cat
+                  ? "bg-[#e99b63] text-black"
+                  : "text-[#e99b63] hover:bg-[#e99b63] hover:text-black"
+              }`}
           >
             {cat}
           </button>
         ))}
       </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
-        {filteredProjects.map((project) => (
-          <div
-            key={project.id}
-            className="bg-[#222] p-4 rounded-lg cursor-pointer hover:shadow-[0_0_15px_rgba(233,155,99,0.4)] transition-all"
-            onClick={() => setActiveProject(project)}
-          >
-            <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-            {project.type === "image" ? (
-              <img
-                src={project.media}
-                alt={project.title}
-                className="rounded-md w-full object-cover h-40"
-              />
-            ) : (
-              <video
-                src={project.media}
-                className="rounded-md w-full object-cover h-40"
-                muted
-                loop
-                playsInline
-              />
-            )}
-          </div>
-        ))}
+      {/* ===== GRID (2 ROWS × 4 COLUMNS) ===== */}
+      <div className="max-w-7xl mx-auto h-[520px] overflow-y-auto">
+        <div className="grid grid-cols-4 gap-6">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              onClick={() => setActiveProject(project)}
+              className="bg-[#1c1c1c] rounded-xl p-4 cursor-pointer transition hover:scale-105 hover:shadow-[0_0_25px_rgba(233,155,99,0.45)]"
+            >
+              <h3 className="text-lg font-semibold mb-3">{project.title}</h3>
+
+              {project.type === "image" ? (
+                <img
+                  src={project.media}
+                  alt={project.title}
+                  className="w-full h-36 object-cover rounded-lg"
+                />
+              ) : (
+                <video
+                  src={project.media}
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-36 object-cover rounded-lg"
+                />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Modal */}
+      {/* ===== MODAL ===== */}
       {activeProject && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setActiveProject(null)}
         >
           <div
-            className="bg-[#1a1a1a] rounded-2xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative border border-[#e99b63]"
             onClick={(e) => e.stopPropagation()}
-            onWheel={(e) => e.stopPropagation()} // ✅ Only scroll inside modal
+            className="bg-[#111] border border-[#e99b63] rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto p-6 relative"
           >
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-4 right-4 text-2xl hover:text-red-400"
+              className="absolute top-4 right-4 text-3xl text-[#e99b63] hover:text-red-400"
             >
               ✕
             </button>
 
-            <h2 className="text-2xl text-[#e99b63] font-bold mb-4">
+            <h2 className="text-3xl font-bold text-center text-[#e99b63] mb-6">
               {activeProject.title}
             </h2>
 
-            {activeProject.type === "image" ? (
-              <img
-                src={activeProject.media}
-                alt={activeProject.title}
-                className="rounded-xl w-full mb-4"
-              />
-            ) : (
-              <video
-                src={activeProject.media}
-                controls
-                className="rounded-xl w-full mb-4"
-              />
-            )}
+            <div className="flex justify-center items-center">
+              {activeProject.type === "image" ? (
+                <img
+                  src={activeProject.media}
+                  alt={activeProject.title}
+                  className="w-[1600px] max-w-none rounded-xl"
+                />
+              ) : (
+                <video
+                  src={activeProject.media}
+                  controls
+                  className="w-auto max-w-full max-h-[80vh] object-contain rounded-xl"
+                />
+              )}
+            </div>
           </div>
         </div>
       )}

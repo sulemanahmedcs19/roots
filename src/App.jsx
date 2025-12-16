@@ -216,16 +216,20 @@ export default function App() {
         )}
       </main>
 
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
-        {sections.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => scrollToPanel(idx)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              activeIndex === idx ? "bg-white scale-150" : "bg-gray-500"
-            }`}
-          />
-        ))}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
+          {sections.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => scrollToPanel(idx)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeIndex === idx
+                  ? "w-10 bg-[#ff8c32]"
+                  : "w-4 bg-gray-500 hover:bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
