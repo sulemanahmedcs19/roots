@@ -3,11 +3,10 @@ import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
 
 const Hero = ({ scrollToPanel }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -15,23 +14,29 @@ const Hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
-      className={`
-        flex flex-col-reverse lg:flex-row items-center justify-between
-        w-screen min-h-screen
-        px-4 sm:px-8 lg:px-20
-        relative
-        bg-black
-        text-white
-        overflow-hidden
-      `}
+      className="flex flex-col-reverse lg:flex-row items-center justify-between w-screen min-h-screen px-4 sm:px-8 lg:px-20 relative text-white overflow-hidden"
       style={{
+        backgroundColor: "#000",
         backgroundImage: isMobile
-          ? "url('/images/hero-bg-mobile.jpg')" // Mobile background image
+          ? "url('/images/hero-bg-mobile.jpg')"
           : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      {/* Background Video (Desktop Only, Hero Section Only) */}
+      {!isMobile && (
+        <video
+          src="/videos/bg.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+          preload="auto" // Preload video
+        />
+      )}
+
       {/* Left Content */}
       <div className="max-w-full lg:max-w-xl z-10 flex flex-col justify-center space-y-6 sm:space-y-8 text-left lg:flex-1 mt-10 lg:mt-0">
         <div className="relative w-[90%] sm:w-48 h-10 bg-gradient-to-r from-[#656565] to-[#e99b63] shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full">
@@ -79,9 +84,10 @@ const Hero = ({ scrollToPanel }) => {
         </div>
       </div>
 
-      {/* Right Side Spline & Light Effects */}
+      {/* Right Side Spline & Light Effects (Desktop Only) */}
       {!isMobile && (
-        <div className="relative lg:w-1/2 w-full h-96 sm:h-[400px] md:h-[500px] lg:h-full flex justify-center items-center mb-10 lg:mb-0">
+        <div className="relative lg:w-1/2 w-full h-96 sm:h-[400px] md:h-[500px] lg:h-full flex justify-center items-center mb-10 lg:mb-0 z-10">
+          {/* Light Effects */}
           <div
             className="absolute rounded-full z-10 pointer-events-none"
             style={{
@@ -105,24 +111,13 @@ const Hero = ({ scrollToPanel }) => {
               background: "rgba(0,0,0,0.7)",
             }}
           />
+          {/* Spline */}
           <Spline
             className="w-full h-full relative z-20"
             scene="https://prod.spline.design/VcskI0gyI6byiCdW/scene.splinecode"
             onMouseDown={(e) => e.stopPropagation()}
           />
         </div>
-      )}
-
-      {/* Background Video */}
-      {!isMobile && (
-        <video
-          src="/videos/bg.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        />
       )}
     </main>
   );

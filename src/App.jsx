@@ -39,16 +39,19 @@ export default function App() {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
+  // Mobile detection
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // AOS init
   useEffect(() => {
     AOS.init({ duration: 1500, once: true });
   }, []);
 
+  // Scroll handler
   const scrollToPanel = (index, updateURL = true) => {
     if (
       index < 0 ||
@@ -74,7 +77,7 @@ export default function App() {
     });
   };
 
-  // Disable scroll when modal open
+  // Disable scroll when modal is open
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
@@ -86,7 +89,7 @@ export default function App() {
     }
   }, [isModalOpen, isMobile]);
 
-  // Mouse wheel (desktop only)
+  // Mouse wheel scroll (desktop)
   useEffect(() => {
     if (loading || isMobile) return;
     const container = containerRef.current;
@@ -104,12 +107,11 @@ export default function App() {
     return () => container.removeEventListener("wheel", handleWheel);
   }, [loading, isModalOpen, isMobile]);
 
-  // Arrow keys (desktop only)
+  // Arrow keys (desktop)
   useEffect(() => {
     if (isMobile) return;
     const handleKey = (e) => {
-      if (isModalOpen) return;
-      if (isScrolling.current) return;
+      if (isModalOpen || isScrolling.current) return;
       if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
 
       if (e.key === "ArrowRight" || e.key === "ArrowDown")
@@ -117,12 +119,11 @@ export default function App() {
       else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
         scrollToPanel(currentIndex.current - 1);
     };
-
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [isModalOpen, isMobile]);
 
-  // Touch swipe (desktop only)
+  // Touch swipe (desktop)
   useEffect(() => {
     if (isMobile) return;
     const container = containerRef.current;
@@ -134,7 +135,6 @@ export default function App() {
 
     const handleTouchEnd = (e) => {
       if (isModalOpen) return;
-
       const diff = touchStartX.current - e.changedTouches[0].clientX;
       if (Math.abs(diff) < 75) return;
 
@@ -155,13 +155,10 @@ export default function App() {
   useEffect(() => {
     const path = location.pathname.replace(/\/$/, "");
     const index = sections.findIndex((sec) => "/" + sec === path);
-
-    if (index >= 0) {
-      requestAnimationFrame(() => scrollToPanel(index, false));
-    }
+    if (index >= 0) requestAnimationFrame(() => scrollToPanel(index, false));
   }, [location.pathname, isMobile]);
 
-  // Intersection observer
+  // Intersection observer for active section
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -180,9 +177,8 @@ export default function App() {
     );
 
     sectionRefs.current.forEach((sec) => sec && observer.observe(sec));
-    return () => {
+    return () =>
       sectionRefs.current.forEach((sec) => sec && observer.unobserve(sec));
-    };
   }, [isModalOpen]);
 
   if (loading) {
@@ -231,6 +227,7 @@ export default function App() {
         )}
       </main>
 
+      {/* Navigation Dots (desktop only) */}
       {!isMobile && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
           <div className="flex gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
