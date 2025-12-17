@@ -192,8 +192,8 @@ export default function App() {
   }
 
   const panelStyle = isMobile
-    ? "w-full h-auto relative" // Mobile vertical
-    : "w-screen h-screen flex-shrink-0 relative"; // Desktop horizontal
+    ? "w-full min-h-screen relative" // Mobile vertical with min-height
+    : "w-screen h-screen flex-shrink-0 relative overflow-hidden"; // Desktop horizontal with fixed height and overflow hidden
 
   return (
     <div className="overflow-hidden w-screen h-screen relative bg-gray-900">
@@ -205,7 +205,8 @@ export default function App() {
         ref={containerRef}
         className={`flex ${
           isMobile ? "flex-col overflow-y-auto" : "flex-row overflow-x-hidden"
-        } w-screen h-screen`}
+        } w-screen`}
+        style={isMobile ? {} : { height: "100vh" }}
       >
         {[Hero, Services, Blog, Contact, Pricing, Portfolio].map(
           (Component, idx) => (

@@ -15,7 +15,7 @@ const Hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
-      className="flex flex-col-reverse lg:flex-row items-center justify-between w-screen min-h-screen px-4 sm:px-8 lg:px-16 relative text-white overflow-hidden"
+      className="flex flex-col-reverse lg:flex-row items-center justify-between w-full h-full px-4 sm:px-8 lg:px-16 relative text-white overflow-hidden"
       style={{
         background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
       }}
@@ -27,7 +27,7 @@ const Hero = ({ scrollToPanel }) => {
       </div>
 
       {/* Left Content */}
-      <div className="max-w-full lg:max-w-xl z-10 flex flex-col justify-center space-y-6 sm:space-y-8 text-left lg:flex-1 mt-10 lg:mt-0 px-4">
+      <div className="max-w-full lg:max-w-xl z-10 flex flex-col justify-center space-y-6 sm:space-y-8 text-left lg:flex-1 mt-10 lg:mt-0 px-4 h-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ const Hero = ({ scrollToPanel }) => {
       {/* Right Side Spline & Light Effects (Desktop Only) */}
       {!isMobile && (
         <motion.div
-          className="relative lg:w-1/2 w-full h-96 sm:h-[400px] md:h-[500px] lg:h-full flex justify-center items-center mb-10 lg:mb-0 z-10"
+          className="relative lg:w-1/2 w-full h-full flex justify-center items-center z-10"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}

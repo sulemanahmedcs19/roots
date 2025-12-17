@@ -125,14 +125,14 @@ export default function Services() {
   }, [activeIndex]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-gray-800">
+    <div className="w-full h-full flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-blue-500/5 blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-indigo-500/5 blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-start md:items-center gap-12 lg:gap-20 p-6 lg:p-8 rounded-xl z-10">
+      <div className="max-w-7xl w-full flex flex-col md:flex-row items-start md:items-center gap-12 lg:gap-20 p-6 lg:p-8 rounded-xl z-10 h-full">
         {/* LEFT SIDE */}
         <div className="flex-1 text-left space-y-8 z-10">
           <motion.div
@@ -190,7 +190,7 @@ export default function Services() {
 
         {/* RIGHT SIDE – VERTICAL SLIDER */}
         <div
-          className="flex-1 h-128 overflow-hidden relative z-10 cursor-grab"
+          className="flex-1 h-[calc(100vh-10rem)] overflow-hidden relative z-10 cursor-grab"
           ref={sliderRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -250,12 +250,6 @@ export default function Services() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .h-128 {
-          height: 32rem;
-        }
-      `}</style>
     </div>
   );
 }
