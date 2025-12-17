@@ -39,64 +39,122 @@ export default function VideoLoader({ onFinish }) {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 1.5, ease: "easeOut" },
+      transition: { duration: 1.2, ease: "easeOut" },
     },
     exit: {
       opacity: 0,
-      y: -30,
-      transition: { duration: 1 },
+      scale: 1.1,
+      transition: { duration: 0.8 },
     },
   };
 
-  const colorAnimation = {
-    color: [
-      "#f57c00", // warm orange
-      "#bf360c", // dark orange / brownish
-      "#ffb74d", // light orange
-      "#f57c00",
-    ],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      repeatType: "loop",
-      ease: "easeInOut",
+  const logoVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        delay: 0.3,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.9,
+      transition: { duration: 0.5 },
     },
   };
 
   return (
-    <>
-      <AnimatePresence>
-        {showLoader && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={textVariants}
-            onAnimationComplete={(definition) => {
-              if (definition === "exit") {
-                handleAnimationComplete();
-              }
-            }}
-            className="relative w-full h-screen flex items-center justify-center"
-            style={{
-              background: "radial-gradient(circle, #1a0a00, #000000 80%)",
-            }}
-          >
-            <motion.h1
-              animate={colorAnimation}
-              className="text-5xl md:text-7xl font-bold text-center tracking-wide"
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                textShadow: "0 0 8px #f57c00, 0 0 15px #bf360c",
-              }}
-            >
-              Welcome to HubStudioDigitals
-            </motion.h1>
+    <AnimatePresence>
+      {showLoader && (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={textVariants}
+          onAnimationComplete={(definition) => {
+            if (definition === "exit") {
+              handleAnimationComplete();
+            }
+          }}
+          className="relative w-full h-screen flex flex-col items-center justify-center"
+          style={{
+            background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+          }}
+        >
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-blue-500/10"
+                style={{
+                  width: Math.random() * 100 + 20,
+                  height: Math.random() * 100 + 20,
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  x: [0, Math.random() * 100 - 50],
+                  y: [0, Math.random() * 100 - 50],
+                  opacity: [0.1, 0.3, 0.1],
+                }}
+                transition={{
+                  duration: Math.random() * 10 + 10,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              />
+            ))}
+          </div>
 
-            <audio ref={audioRef} src="/enter.mp3" preload="auto" />
+          {/* Logo */}
+          <motion.div variants={logoVariants} className="mb-8">
+            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-3xl font-bold shadow-xl">
+              HS
+            </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+
+          {/* Company Name */}
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold text-center text-white mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1 }}
+          >
+            HubStudio
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            className="text-lg md:text-xl text-center text-gray-300 max-w-md"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 1 }}
+          >
+            Digital Solutions for Modern Businesses
+          </motion.p>
+
+          {/* Loading Bar */}
+          <motion.div
+            className="mt-12 w-64 h-1 bg-gray-700 rounded-full overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <motion.div
+              className="h-full bg-gradient-to-r from-blue-500 to-indigo-600"
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 2.5, ease: "easeInOut" }}
+            />
+          </motion.div>
+
+          <audio ref={audioRef} src="/enter.mp3" preload="auto" />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

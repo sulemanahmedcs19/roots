@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 /* ================= IMAGES & VIDEOS ================= */
 
@@ -40,173 +41,197 @@ const projectsData = [
   {
     id: 1,
     category: "Web Design",
-    title: "Web Project 1",
+    title: "E-commerce Platform",
     media: web1,
     type: "image",
+    description: "Modern e-commerce solution with intuitive user experience",
   },
   {
     id: 2,
     category: "Web Design",
-    title: "Web Project 2",
+    title: "Corporate Website",
     media: web2,
     type: "image",
+    description: "Professional website for a financial services company",
   },
   {
     id: 3,
     category: "Web Design",
-    title: "Web Project 3",
+    title: "Portfolio Website",
     media: web3,
     type: "image",
+    description: "Creative portfolio for a digital artist",
   },
   {
     id: 4,
     category: "Web Design",
-    title: "Web Project 4",
+    title: "SaaS Dashboard",
     media: web4,
     type: "image",
+    description: "Analytics dashboard for a SaaS platform",
   },
   {
     id: 5,
     category: "Web Design",
-    title: "Web Project 5",
+    title: "Restaurant Website",
     media: web5,
     type: "image",
+    description: "Elegant website for a fine dining restaurant",
   },
   {
     id: 6,
     category: "Web Design",
-    title: "Web Project 6",
+    title: "Travel Agency",
     media: web6,
     type: "image",
+    description: "Interactive travel booking platform",
   },
   {
     id: 7,
     category: "Web Design",
-    title: "Web Project 7",
+    title: "Real Estate Portal",
     media: web7,
     type: "image",
+    description: "Property listing website with advanced search",
   },
   {
     id: 8,
     category: "Web Design",
-    title: "Web Project 8",
+    title: "Educational Platform",
     media: web8,
     type: "image",
+    description: "Online learning management system",
   },
 
   {
     id: 9,
     category: "Branding",
-    title: "Brand Video 1",
+    title: "Tech Startup Branding",
     media: brand1,
     type: "video",
+    description: "Complete brand identity for a tech startup",
   },
   {
     id: 10,
     category: "Branding",
-    title: "Brand Video 2",
+    title: "Fashion Brand Identity",
     media: brand2,
     type: "video",
+    description: "Brand identity for a luxury fashion label",
   },
   {
     id: 11,
     category: "Branding",
-    title: "Brand Video 3",
+    title: "Food & Beverage Brand",
     media: brand3,
     type: "video",
+    description: "Brand identity for a craft beverage company",
   },
   {
     id: 12,
     category: "Branding",
-    title: "Brand Video 4",
+    title: "Fitness Brand Identity",
     media: brand4,
     type: "video",
+    description: "Brand identity for a fitness app and equipment",
   },
 
   {
     id: 13,
     category: "Mobile App",
-    title: "Mobile App 1",
+    title: "Fitness Tracker App",
     media: mobile1,
     type: "image",
+    description: "Mobile app for tracking workouts and nutrition",
   },
   {
     id: 14,
     category: "Mobile App",
-    title: "Mobile App 2",
+    title: "Banking App",
     media: mobile2,
     type: "image",
+    description: "Secure mobile banking application",
   },
   {
     id: 15,
     category: "Mobile App",
-    title: "Mobile App 3",
+    title: "Food Delivery App",
     media: mobile3,
     type: "image",
+    description: "Food ordering and delivery platform",
   },
   {
     id: 16,
     category: "Mobile App",
-    title: "Mobile App 4",
+    title: "Travel Planner App",
     media: mobile4,
     type: "image",
+    description: "App for planning and booking travel itineraries",
   },
   {
     id: 17,
     category: "Mobile App",
-    title: "Mobile App 5",
+    title: "Meditation App",
     media: mobile5,
     type: "image",
+    description: "Mindfulness and meditation application",
   },
   {
     id: 18,
     category: "Mobile App",
-    title: "Mobile App 6",
+    title: "Social Media App",
     media: mobile6,
     type: "image",
+    description: "Niche social networking platform",
   },
 
   {
     id: 19,
     category: "UI/UX Design",
-    title: "UI/UX Project 1",
+    title: "Dashboard UI",
     media: ui1,
     type: "image",
+    description: "Analytics dashboard with data visualization",
   },
   {
     id: 20,
     category: "UI/UX Design",
-    title: "UI/UX Project 2",
+    title: "E-commerce App UI",
     media: ui2,
     type: "image",
+    description: "User interface for a shopping application",
   },
   {
     id: 21,
     category: "UI/UX Design",
-    title: "UI/UX Project 3",
+    title: "Music App UI",
     media: ui3,
     type: "image",
+    description: "Streaming music application interface",
   },
   {
     id: 22,
     category: "UI/UX Design",
-    title: "UI/UX Project 4",
+    title: "Healthcare App UI",
     media: ui4,
     type: "image",
+    description: "Patient management application interface",
   },
   {
     id: 23,
     category: "UI/UX Design",
-    title: "UI/UX Project 5",
+    title: "Education App UI",
     media: ui5,
     type: "image",
+    description: "Online learning platform interface",
   },
   {
     id: 24,
     category: "UI/UX Design",
-    title: "UI/UX Project 6",
+    title: "Finance App UI",
     media: ui6,
     type: "image",
+    description: "Personal finance management application",
   },
 ];
 
@@ -233,102 +258,176 @@ const Portfolio = ({ setModalOpen }) => {
 
   return (
     <div
-      className={`w-full h-full px-8 py-16 text-white transition-opacity duration-1000 ${
+      className={`w-full h-full px-4 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      {/* Title */}
-      <h2 className="text-5xl font-bold text-center mb-12 mt-12 text-[#e99b63]">
-        Creative Portfolio
-      </h2>
+      {/* Section Header */}
+      <motion.div
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-medium mb-4">
+          <i className="bx bx-briefcase text-blue-400 mr-2"></i>
+          Our Portfolio
+        </div>
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">Creative Works</h2>
+        <p className="text-gray-400 max-w-2xl mx-auto">
+          Explore our latest projects and see how we've helped businesses
+          transform their digital presence.
+        </p>
+      </motion.div>
 
       {/* Categories */}
-      <div className="flex justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-4 mb-12">
         {categories.map((cat) => (
-          <button
+          <motion.button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-6 py-3 rounded-full border border-[#e99b63] font-semibold transition
-              ${
-                selectedCategory === cat
-                  ? "bg-[#e99b63] text-black"
-                  : "text-[#e99b63] hover:bg-[#e99b63] hover:text-black"
-              }`}
+            className={`px-6 py-3 rounded-full font-medium transition ${
+              selectedCategory === cat
+                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             {cat}
-          </button>
+          </motion.button>
         ))}
       </div>
 
-      {/* ===== GRID (2 ROWS × 4 COLUMNS) ===== */}
-      <div className="max-w-7xl mx-auto h-[520px] overflow-y-auto">
-        <div className="grid grid-cols-4 gap-6">
-          {filteredProjects.map((project) => (
-            <div
+      {/* GRID */}
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredProjects.map((project, index) => (
+            <motion.div
               key={project.id}
               onClick={() => setActiveProject(project)}
-              className="bg-[#1c1c1c] rounded-xl p-4 cursor-pointer transition hover:scale-105 hover:shadow-[0_0_25px_rgba(233,155,99,0.45)]"
+              className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-xl overflow-hidden cursor-pointer hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col h-full"
+              whileHover={{ y: -10 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <h3 className="text-lg font-semibold mb-3">{project.title}</h3>
-
-              {project.type === "image" ? (
-                <img
-                  src={project.media}
-                  alt={project.title}
-                  className="w-full h-36 object-cover rounded-lg"
-                />
-              ) : (
-                <video
-                  src={project.media}
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-36 object-cover rounded-lg"
-                />
-              )}
-            </div>
+              <div className="h-48 overflow-hidden">
+                {project.type === "image" ? (
+                  <img
+                    src={project.media}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                ) : (
+                  <video
+                    src={project.media}
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="p-4 flex-1 flex flex-col">
+                <div className="text-xs text-blue-400 font-medium mb-1">
+                  {project.category}
+                </div>
+                <h3 className="font-semibold text-lg text-white mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-gray-400 text-sm flex-1">
+                  {project.description}
+                </p>
+                <div className="mt-4 text-blue-400 text-sm font-medium flex items-center">
+                  View Project
+                  <i className="bx bx-right-arrow-alt ml-1"></i>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* ===== MODAL ===== */}
+      {/* MODAL */}
       {activeProject && (
-        <div
+        <motion.div
           className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           onClick={() => setActiveProject(null)}
         >
-          <div
+          <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#111] border border-[#e99b63] rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto p-6 relative"
+            className="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto p-6 relative"
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0 }}
           >
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-4 right-4 text-3xl text-[#e99b63] hover:text-red-400"
+              className="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl z-10"
             >
               ✕
             </button>
 
-            <h2 className="text-3xl font-bold text-center text-[#e99b63] mb-6">
-              {activeProject.title}
-            </h2>
+            <div className="mb-4">
+              <div className="text-blue-400 text-sm font-medium">
+                {activeProject.category}
+              </div>
+              <h2 className="text-3xl font-bold text-white mt-1">
+                {activeProject.title}
+              </h2>
+            </div>
 
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center my-6">
               {activeProject.type === "image" ? (
                 <img
                   src={activeProject.media}
                   alt={activeProject.title}
-                  className="w-[1600px] max-w-none rounded-xl"
+                  className="rounded-xl max-w-full"
                 />
               ) : (
                 <video
                   src={activeProject.media}
                   controls
-                  className="w-auto max-w-full max-h-[80vh] object-contain rounded-xl"
+                  className="rounded-xl max-w-full max-h-[70vh]"
                 />
               )}
             </div>
-          </div>
-        </div>
+
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold text-white mb-2">
+                Project Description
+              </h3>
+              <p className="text-gray-300">
+                {activeProject.description} This project showcases our expertise
+                in creating engaging digital experiences that drive results for
+                our clients. Our team worked closely with the client to
+                understand their goals and deliver a solution that exceeded
+                expectations.
+              </p>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-gray-700/50 p-4 rounded-lg">
+                <div className="text-blue-400 font-medium">Client</div>
+                <div className="text-white">Leading Industry Brand</div>
+              </div>
+              <div className="bg-gray-700/50 p-4 rounded-lg">
+                <div className="text-blue-400 font-medium">Duration</div>
+                <div className="text-white">3 Months</div>
+              </div>
+              <div className="bg-gray-700/50 p-4 rounded-lg">
+                <div className="text-blue-400 font-medium">Technologies</div>
+                <div className="text-white">React, Node.js, MongoDB</div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

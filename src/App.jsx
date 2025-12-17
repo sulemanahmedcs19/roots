@@ -12,6 +12,7 @@ import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -48,7 +49,7 @@ export default function App() {
 
   // AOS init
   useEffect(() => {
-    AOS.init({ duration: 1500, once: true });
+    AOS.init({ duration: 1000, once: true, easing: "ease-out-cubic" });
   }, []);
 
   // Scroll handler
@@ -67,8 +68,8 @@ export default function App() {
 
     gsap.to(containerRef.current, {
       scrollLeft: index * window.innerWidth,
-      duration: 0.8,
-      ease: "power2.inOut",
+      duration: 1,
+      ease: "power3.inOut",
       onComplete: () => {
         isScrolling.current = false;
         setActiveIndex(index);
@@ -195,7 +196,7 @@ export default function App() {
     : "w-screen h-screen flex-shrink-0 relative"; // Desktop horizontal
 
   return (
-    <div className="overflow-hidden w-screen h-screen relative">
+    <div className="overflow-hidden w-screen h-screen relative bg-gray-900">
       <div className="fixed top-0 left-0 w-screen z-50">
         <Header scrollToPanel={scrollToPanel} />
       </div>
@@ -208,11 +209,14 @@ export default function App() {
       >
         {[Hero, Services, Blog, Contact, Pricing, Portfolio].map(
           (Component, idx) => (
-            <section
+            <motion.section
               key={idx}
               ref={(el) => (sectionRefs.current[idx] = el)}
               data-index={idx}
               className={panelStyle}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
             >
               <Component
                 scrollToPanel={scrollToPanel}
@@ -222,28 +226,41 @@ export default function App() {
                     : undefined
                 }
               />
-            </section>
+            </motion.section>
           )
         )}
       </main>
 
       {/* Navigation Dots (desktop only) */}
       {!isMobile && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-          <div className="flex gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/20">
+        <motion.div
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+        >
+          <div className="flex gap-3 bg-black/60 backdrop-blur-lg px-5 py-3 rounded-full border border-gray-700 shadow-lg">
             {sections.map((_, idx) => (
-              <button
+              <motion.button
                 key={idx}
                 onClick={() => scrollToPanel(idx)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   activeIndex === idx
-                    ? "w-10 bg-[#ff8c32]"
-                    : "w-4 bg-gray-500 hover:bg-gray-300"
+                    ? "bg-blue-500"
+                    : "bg-gray-600 hover:bg-gray-400"
                 }`}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ width: "0.5rem" }}
+                animate={{
+                  width: activeIndex === idx ? "2.5rem" : "0.5rem",
+                  backgroundColor: activeIndex === idx ? "#3b82f6" : "#4b5563",
+                }}
+                transition={{ duration: 0.3 }}
               />
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
