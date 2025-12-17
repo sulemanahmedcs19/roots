@@ -112,7 +112,6 @@ const Hero = ({ scrollToPanel }) => {
         </motion.div>
       </div>
 
-      {/* Right Side Spline & Light Effects (Desktop Only) */}
       {!isMobile && (
         <motion.div
           className="relative lg:w-1/2 w-full h-full flex justify-center items-center z-10"

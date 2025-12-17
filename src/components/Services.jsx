@@ -178,7 +178,7 @@ export default function Services() {
             className="grid grid-cols-2 gap-4 mt-8"
           >
             <div className="bg-gray-800/50 backdrop-blur p-4 rounded-lg border border-gray-700">
-              <div className="text-3xl font-bold text-blue-400">50+</div>
+              <div className="text-3xl font-bold text-blue-400">80+</div>
               <div className="text-gray-400 text-sm">Happy Clients</div>
             </div>
             <div className="bg-gray-800/50 backdrop-blur p-4 rounded-lg border border-gray-700">
