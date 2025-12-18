@@ -254,12 +254,12 @@ const Portfolio = ({ setModalOpen }) => {
 
   return (
     <div
-      className={`w-full h-full px-6 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-black ${
+      className={`w-full h-full px-4 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-black ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
       {/* Section Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-12">
         <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
           <span className="flex h-3 w-3 relative mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -268,7 +268,7 @@ const Portfolio = ({ setModalOpen }) => {
           <span className="text-sm font-medium text-amber-400">Our Work</span>
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           Creative{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
             Portfolio
@@ -281,12 +281,12 @@ const Portfolio = ({ setModalOpen }) => {
       </div>
 
       {/* Categories */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-3 mb-10">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-6 py-3 rounded-full font-medium transition-all ${
+            className={`px-4 py-2 lg:px-6 lg:py-3 rounded-full font-medium transition-all text-sm lg:text-base ${
               selectedCategory === cat
                 ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
                 : "bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gray-700/50"
@@ -299,14 +299,14 @@ const Portfolio = ({ setModalOpen }) => {
 
       {/* GRID */}
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
               onClick={() => setActiveProject(project)}
               className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-[1.03] hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50"
             >
-              <div className="relative overflow-hidden h-48">
+              <div className="relative overflow-hidden h-40 lg:h-48">
                 {project.type === "image" ? (
                   <img
                     src={project.media}
@@ -333,7 +333,7 @@ const Portfolio = ({ setModalOpen }) => {
                 </div>
               </div>
 
-              <div className="p-5">
+              <div className="p-4">
                 <p className="text-gray-400 text-sm line-clamp-2">
                   {project.description}
                 </p>
@@ -360,14 +360,14 @@ const Portfolio = ({ setModalOpen }) => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800/90 backdrop-blur-lg rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col border border-gray-700/50"
+            className="bg-gray-800/90 backdrop-blur-lg rounded-2xl w-full max-w-full md:max-w-6xl max-h-[90vh] overflow-hidden flex flex-col border border-gray-700/50"
           >
-            <div className="p-6 border-b border-gray-700/50 flex justify-between items-center">
+            <div className="p-4 lg:p-6 border-b border-gray-700/50 flex justify-between items-center">
               <div>
                 <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-700/50 rounded-full mb-2">
                   {activeProject.category}
                 </span>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-xl lg:text-2xl font-bold text-white">
                   {activeProject.title}
                 </h2>
               </div>
@@ -379,23 +379,23 @@ const Portfolio = ({ setModalOpen }) => {
               </button>
             </div>
 
-            <div className="overflow-y-auto flex-grow flex items-center justify-center p-4 bg-gray-900/50">
+            <div className="overflow-y-auto flex-grow flex items-center justify-center p-2 lg:p-4 bg-gray-900/50">
               {activeProject.type === "image" ? (
                 <img
                   src={activeProject.media}
                   alt={activeProject.title}
-                  className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                  className="max-w-full max-h-[50vh] lg:max-h-[70vh] object-contain rounded-lg"
                 />
               ) : (
                 <video
                   src={activeProject.media}
                   controls
-                  className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                  className="max-w-full max-h-[50vh] lg:max-h-[70vh] object-contain rounded-lg"
                 />
               )}
             </div>
 
-            <div className="p-6 border-t border-gray-700/50">
+            <div className="p-4 lg:p-6 border-t border-gray-700/50">
               <p className="text-gray-300">{activeProject.description}</p>
 
               <div className="flex justify-end mt-6">

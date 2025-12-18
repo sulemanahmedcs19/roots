@@ -149,15 +149,17 @@ export default function App() {
       <main
         ref={containerRef}
         className={`flex ${
-          isMobile ? "flex-col overflow-y-auto" : "flex-row overflow-x-hidden"
-        } w-screen h-screen`}
+          isMobile
+            ? "flex-col overflow-y-auto snap-y snap-mandatory"
+            : "flex-row overflow-x-hidden"
+        } w-full h-full`}
       >
         {[Hero, Services, Blog, Contact, Pricing, Portfolio].map(
           (Component, i) => (
             <section
               key={i}
               ref={(el) => (sectionRefs.current[i] = el)}
-              className={panelClass}
+              className={`${panelClass} ${isMobile ? "snap-start" : ""}`}
             >
               <Component
                 scrollToPanel={scrollToPanel}

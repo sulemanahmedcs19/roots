@@ -20,13 +20,13 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="min-h-screen w-full px-6 lg:px-16 py-32 
+      className="min-h-screen w-full px-4 lg:px-16 py-16 lg:py-32 
                  text-white 
                  bg-gradient-to-br from-gray-900 to-black"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12">
           <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
             <span className="flex h-3 w-3 relative mr-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -37,7 +37,7 @@ const Contact = () => {
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Contact{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
               Us
@@ -51,9 +51,9 @@ const Contact = () => {
         </div>
 
         {/* Animated Heading */}
-        <div ref={headingRef} className="overflow-hidden mb-20 text-center">
+        <div ref={headingRef} className="overflow-hidden mb-16 text-center">
           <h1
-            className={`text-5xl sm:text-6xl font-extrabold uppercase tracking-wide
+            className={`text-4xl md:text-5xl font-extrabold uppercase tracking-wide
                       bg-gradient-to-r from-amber-400 to-orange-500 text-transparent bg-clip-text
                       transition-all duration-1000
                       ${
@@ -66,7 +66,7 @@ const Contact = () => {
           </h1>
 
           <h2
-            className={`text-4xl sm:text-5xl font-extrabold uppercase tracking-wide
+            className={`text-3xl md:text-4xl font-extrabold uppercase tracking-wide
                       text-gray-300
                       transition-all duration-1000 delay-200
                       ${
@@ -80,10 +80,10 @@ const Contact = () => {
         </div>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 max-w-4xl mx-auto">
           {/* OUR OFFICE */}
           <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
+            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
             data-aos="fade-up"
           >
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
@@ -100,7 +100,7 @@ const Contact = () => {
 
           {/* CONTACT */}
           <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
+            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
             data-aos="fade-up"
             data-aos-delay="100"
           >
@@ -118,7 +118,7 @@ const Contact = () => {
 
           {/* SOCIAL */}
           <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
+            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
             data-aos="fade-up"
             data-aos-delay="200"
           >
@@ -155,76 +155,6 @@ const Contact = () => {
               </a>
             </div>
           </div>
-        </div>
-
-        {/* Contact Form */}
-        <div
-          className="mt-20 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50"
-          data-aos="fade-up"
-          data-aos-delay="300"
-        >
-          <h3 className="text-2xl font-bold text-white mb-6">
-            Send us a message
-          </h3>
-
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block text-gray-300 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-gray-300 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  placeholder="Your email"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="subject" className="block text-gray-300 mb-2">
-                Subject
-              </label>
-              <input
-                type="text"
-                id="subject"
-                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                placeholder="Subject"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-gray-300 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows="5"
-                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                placeholder="Your message"
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-              Send Message
-            </button>
-          </form>
         </div>
       </div>
     </section>

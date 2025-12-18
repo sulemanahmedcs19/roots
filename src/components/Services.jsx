@@ -124,10 +124,10 @@ export default function Services() {
   }, [activeIndex]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-6 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-black">
-      <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start lg:items-center gap-16 p-8 rounded-xl">
+    <div className="w-full h-full flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-black">
+      <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16 p-4 lg:p-8 rounded-xl">
         {/* LEFT SIDE */}
-        <div className="flex-1 text-left space-y-8 z-10">
+        <div className="flex-1 text-left space-y-6 lg:space-y-8 z-10 px-4">
           <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 w-fit">
             <span className="flex h-3 w-3 relative mr-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -138,14 +138,14 @@ export default function Services() {
             </span>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
             Building
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
               Digital Experiences
             </span>
           </h1>
 
-          <p className="text-lg text-gray-300 leading-relaxed max-w-lg">
+          <p className="text-base lg:text-lg text-gray-300 leading-relaxed max-w-lg">
             We design and develop modern creative solutions for brands. Stunning
             visuals and clean UI design bring your ideas to life.
           </p>
@@ -153,22 +153,22 @@ export default function Services() {
 
         {/* RIGHT SIDE – VERTICAL SLIDER */}
         <div
-          className="flex-1 h-[500px] overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4"
+          className="flex-1 h-[400px] lg:h-[500px] overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4"
           ref={sliderRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          <div className="absolute top-0 flex flex-col gap-6 w-full">
+          <div className="absolute top-0 flex flex-col gap-4 lg:gap-6 w-full">
             {[...services, ...services].map((service, index) => {
               const isActive = index === activeIndex;
               return (
                 <div
                   key={index}
                   onClick={() => handleCardClick(index)}
-                  className={`p-6 rounded-2xl cursor-pointer transition-all duration-700 ease-in-out transform backdrop-blur-sm ${
-                    isActive ? "scale-105 h-96" : "h-32"
+                  className={`p-4 lg:p-6 rounded-2xl cursor-pointer transition-all duration-700 ease-in-out transform backdrop-blur-sm ${
+                    isActive ? "scale-105 h-80 lg:h-96" : "h-24 lg:h-32"
                   } bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/50 hover:border-amber-500/50`}
                 >
                   <div className="relative z-10 flex flex-col justify-center h-full">
@@ -178,7 +178,7 @@ export default function Services() {
                           className={`${service.icon} text-2xl text-amber-400`}
                         ></i>
                       </div>
-                      <h2 className="text-2xl font-bold text-white">
+                      <h2 className="text-xl lg:text-2xl font-bold text-white">
                         {service.title}
                       </h2>
                     </div>

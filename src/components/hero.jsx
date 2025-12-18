@@ -14,17 +14,10 @@ const Hero = ({ scrollToPanel }) => {
   return (
     <main
       id="home"
-      className="relative w-screen h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 text-white bg-gradient-to-br from-gray-900 to-black"
+      className="relative w-screen h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-4 lg:px-20 text-white bg-gradient-to-br from-gray-900 to-black"
     >
-      {/* Background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-purple-500 rounded-full blur-xl opacity-20 animate-blob" />
-        <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500 rounded-full blur-xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute bottom-0 left-20 w-72 h-72 bg-orange-500 rounded-full blur-xl opacity-20 animate-blob animation-delay-4000" />
-      </div>
-
       {/* Left Content */}
-      <div className="relative z-10 max-w-full lg:max-w-xl flex flex-col justify-center space-y-8 lg:py-20">
+      <div className="relative z-10 max-w-full lg:max-w-xl flex flex-col justify-center space-y-6 lg:space-y-8 lg:py-20 px-4">
         <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 w-fit">
           <span className="flex h-3 w-3 relative mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -35,29 +28,29 @@ const Hero = ({ scrollToPanel }) => {
           </span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
+        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight tracking-tight">
           Digital Experiences
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
             That Inspire
           </span>
         </h1>
 
-        <p className="text-lg text-gray-300 max-w-lg leading-relaxed">
+        <p className="text-base md:text-lg text-gray-300 max-w-lg leading-relaxed">
           We craft innovative digital solutions that transform ideas into
           powerful experiences. Our approach combines creativity with technology
           to build brands that stand out.
         </p>
 
-        <div className="flex flex-wrap gap-4 pt-4">
+        <div className="flex flex-wrap gap-3 md:gap-4 pt-2">
           <button
-            className="px-8 py-3 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium hover:opacity-90 transition-all"
+            className="px-6 py-2 md:px-8 md:py-3 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium hover:opacity-90 transition-all text-sm md:text-base"
             onClick={() => scrollToPanel(1)}
           >
             Get Started <i className="bx bx-right-arrow-alt ml-2"></i>
           </button>
 
           <button
-            className="px-8 py-3 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700 text-white font-medium hover:bg-gray-700/50 transition-all"
+            className="px-6 py-2 md:px-8 md:py-3 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700 text-white font-medium hover:bg-gray-700/50 transition-all text-sm md:text-base"
             onClick={() => scrollToPanel(1)}
           >
             Learn More <i className="bx bx-book-open ml-2"></i>

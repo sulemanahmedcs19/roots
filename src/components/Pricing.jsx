@@ -76,7 +76,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
       className={`
         rounded-2xl w-80 h-[480px]
         bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm
-        p-8 text-white
+        p-6 text-white
         transition-all duration-500 cursor-pointer
         border ${
           plan.popular
@@ -94,12 +94,12 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
         </div>
       )}
 
-      <div className="mb-6">
-        <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
+      <div className="mb-4">
+        <h3 className="text-2xl font-bold mb-1">{plan.title}</h3>
         <p className="text-gray-400 text-sm">{plan.description}</p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-2">
         <div className="flex items-baseline">
           <span className="text-5xl font-bold">${price}</span>
           <span className="text-gray-400 ml-2">
@@ -112,7 +112,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
       </div>
 
       <button
-        className={`w-full py-3 rounded-xl font-medium mb-8 transition-all ${
+        className={`w-full py-3 rounded-xl font-medium mb-1 transition-all ${
           plan.popular
             ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:opacity-90"
             : "bg-gray-700/50 text-white hover:bg-gray-600/50"
@@ -121,7 +121,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
         {plan.buttonText}
       </button>
 
-      <ul className="space-y-3">
+      <ul className="space-y-1.5">
         {plan.features.map((feature, i) => (
           <li key={i} className="flex items-start">
             <i className="bx bx-check text-amber-400 text-xl mr-3 mt-0.5"></i>
@@ -199,8 +199,8 @@ const Pricing = () => {
       className="min-h-screen w-full py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
     >
       {/* Section Header */}
-      <div className="text-center mb-16 px-6">
-        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
+      <div className="text-center mb-12 px-6">
+        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-3">
           <span className="flex h-3 w-3 relative mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
@@ -224,7 +224,7 @@ const Pricing = () => {
       </div>
 
       {/* Billing Toggle */}
-      <div className="mb-16 flex items-center gap-4 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
+      <div className="mb-16 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
         {["monthly", "yearly"].map((cycle) => (
           <button
             key={cycle}
@@ -288,7 +288,7 @@ const Pricing = () => {
       </div>
 
       {/* Additional Info */}
-      <div className="mt-20 max-w-3xl text-center px-6">
+      <div className="mt-16 max-w-3xl text-center px-6">
         <h3 className="text-2xl font-bold mb-4">Need something custom?</h3>
         <p className="text-gray-400 mb-6">
           We offer custom plans for larger teams and enterprises. Contact us to
