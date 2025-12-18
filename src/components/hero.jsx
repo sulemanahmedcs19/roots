@@ -2,22 +2,14 @@ import React, { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
 
-const Hero = ({ scrollToPanel }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
+const Hero = ({ scrollToPanel, isMobile }) => {
   return (
     <main
       id="home"
-      className="relative w-screen h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-4 lg:px-20 text-white bg-gradient-to-br from-gray-900 to-black"
+      className="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-4 py-16 md:py-24 text-white bg-gradient-to-br from-gray-900 to-black"
     >
-      {/* Left Content */}
-      <div className="relative z-10 max-w-full lg:max-w-xl flex flex-col justify-center space-y-6 lg:space-y-8 lg:py-20 px-4">
+      {/* Left Content - Desktop */}
+      <div className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center space-y-6 lg:space-y-8 px-4 lg:px-8 lg:pl-16">
         <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 w-fit">
           <span className="flex h-3 w-3 relative mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -66,6 +58,20 @@ const Hero = ({ scrollToPanel }) => {
             style={{ width: "100%", height: "100%" }}
             onMouseDown={(e) => e.stopPropagation()}
           />
+        </div>
+      )}
+
+      {/* Mobile visual placeholder */}
+      {isMobile && (
+        <div className="relative z-10 w-full h-64 flex items-center justify-center overflow-hidden mt-8">
+          <div className="w-full h-full bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-2xl flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center mb-4">
+                <i className="bx bx-rocket text-white text-2xl"></i>
+              </div>
+              <p className="text-amber-400 font-medium">Digital Innovation</p>
+            </div>
+          </div>
         </div>
       )}
     </main>

@@ -6,7 +6,7 @@ import brandingImg from "../assets/services/Branding.jpg";
 import motionImg from "../assets/services/Motion.PNG";
 import uiImg from "../assets/services/UIdesign.PNG";
 
-export default function Services() {
+export default function Services({ isMobile }) {
   const services = [
     {
       title: "Website Design",
@@ -124,7 +124,7 @@ export default function Services() {
   }, [activeIndex]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-black">
+    <div className="w-full min-h-screen flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-black py-16">
       <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16 p-4 lg:p-8 rounded-xl">
         {/* LEFT SIDE */}
         <div className="flex-1 text-left space-y-6 lg:space-y-8 z-10 px-4">
@@ -153,7 +153,9 @@ export default function Services() {
 
         {/* RIGHT SIDE – VERTICAL SLIDER */}
         <div
-          className="flex-1 h-[400px] lg:h-[500px] overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4"
+          className={`flex-1 ${
+            isMobile ? "h-[500px]" : "h-[400px] lg:h-[500px]"
+          } overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4`}
           ref={sliderRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}

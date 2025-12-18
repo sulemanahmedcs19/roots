@@ -65,7 +65,7 @@ const plans = [
 ];
 
 /* CARD */
-const PricingCard = ({ plan, billingCycle, isActive }) => {
+const PricingCard = ({ plan, billingCycle, isActive, isMobile }) => {
   const price =
     billingCycle === "monthly"
       ? plan.priceMonthly
@@ -74,7 +74,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
   return (
     <div
       className={`
-        rounded-2xl w-80 h-[480px]
+        rounded-2xl w-full ${isMobile ? "h-auto" : "h-[480px]"}
         bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm
         p-6 text-white
         transition-all duration-500 cursor-pointer
@@ -121,7 +121,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
         {plan.buttonText}
       </button>
 
-      <ul className="space-y-1.5">
+      <ul className="space-y-1.5 mt-4">
         {plan.features.map((feature, i) => (
           <li key={i} className="flex items-start">
             <i className="bx bx-check text-amber-400 text-xl mr-3 mt-0.5"></i>
@@ -134,7 +134,7 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
 };
 
 /* MAIN */
-const Pricing = () => {
+const Pricing = ({ isMobile }) => {
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [rotation, setRotation] = useState(0);
   const [activeCard, setActiveCard] = useState(null);
@@ -148,8 +148,10 @@ const Pricing = () => {
   const rotationRef = useRef(0);
   const activeCardRef = useRef(null);
 
-  /* Auto rotate */
+  /* Auto rotate - only for desktop */
   useEffect(() => {
+    if (isMobile) return;
+
     const interval = setInterval(() => {
       if (rotateRef.current && !draggingRef.current) {
         rotationRef.current += 0.3;
@@ -157,7 +159,7 @@ const Pricing = () => {
       }
     }, 30);
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile]);
 
   const handleMouseDown = (e) => {
     draggingRef.current = true;
@@ -177,26 +179,38 @@ const Pricing = () => {
   };
 
   const handleCardClick = (index) => {
-    if (activeCardRef.current === index) {
-      activeCardRef.current = null;
-      setActiveCard(null);
-      rotateRef.current = true;
+    if (isMobile) {
+      // Simple toggle for mobile
+      if (activeCardRef.current === index) {
+        activeCardRef.current = null;
+        setActiveCard(null);
+      } else {
+        activeCardRef.current = index;
+        setActiveCard(index);
+      }
     } else {
-      activeCardRef.current = index;
-      setActiveCard(index);
-      rotateRef.current = false;
+      // Desktop 3D carousel behavior
+      if (activeCardRef.current === index) {
+        activeCardRef.current = null;
+        setActiveCard(null);
+        rotateRef.current = true;
+      } else {
+        activeCardRef.current = index;
+        setActiveCard(index);
+        rotateRef.current = false;
 
-      const angle = 360 / cardCount;
-      const target = -angle * index;
-      rotationRef.current = target;
-      setRotation(target);
+        const angle = 360 / cardCount;
+        const target = -angle * index;
+        rotationRef.current = target;
+        setRotation(target);
+      }
     }
   };
 
   return (
     <section
       id="pricing"
-      className="min-h-screen w-full py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
+      className="min-h-screen w-full py-16 md:py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
     >
       {/* Section Header */}
       <div className="text-center mb-12 px-6">
@@ -245,47 +259,64 @@ const Pricing = () => {
         ))}
       </div>
 
-      {/* Carousel */}
-      <div
-        className="relative w-[950px] h-[600px]"
-        style={{ perspective: "1300px" }}
-      >
-        <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: `translateZ(-${radius}px) rotateY(${rotation}deg)`,
-            transition: draggingRef.current ? "none" : "transform 0.6s ease",
-          }}
-        >
-          {plans.map((plan, i) => {
-            const angle = (360 / cardCount) * i;
-            return (
-              <div
-                key={plan.id}
-                style={{
-                  position: "absolute",
-                  width: "320px",
-                  height: "480px",
-                  top: "50%",
-                  left: "50%",
-                  marginTop: "-240px",
-                  marginLeft: "-160px",
-                  transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
-                  backfaceVisibility: "hidden",
-                }}
-                onClick={() => handleCardClick(i)}
-              >
-                <PricingCard
-                  plan={plan}
-                  billingCycle={billingCycle}
-                  isActive={activeCard === i}
-                />
-              </div>
-            );
-          })}
+      {/* Mobile Pricing Cards */}
+      {isMobile ? (
+        <div className="w-full max-w-md mx-auto space-y-6">
+          {plans.map((plan, i) => (
+            <div key={plan.id} onClick={() => handleCardClick(i)}>
+              <PricingCard
+                plan={plan}
+                billingCycle={billingCycle}
+                isActive={activeCard === i}
+                isMobile={isMobile}
+              />
+            </div>
+          ))}
         </div>
-      </div>
+      ) : (
+        /* Desktop Carousel */
+        <div
+          className="relative w-[950px] h-[600px]"
+          style={{ perspective: "1300px" }}
+        >
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: `translateZ(-${radius}px) rotateY(${rotation}deg)`,
+              transition: draggingRef.current ? "none" : "transform 0.6s ease",
+            }}
+          >
+            {plans.map((plan, i) => {
+              const angle = (360 / cardCount) * i;
+              return (
+                <div
+                  key={plan.id}
+                  style={{
+                    position: "absolute",
+                    width: "320px",
+                    height: "480px",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-240px",
+                    marginLeft: "-160px",
+                    transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
+                    backfaceVisibility: "hidden",
+                  }}
+                  onClick={() => handleCardClick(i)}
+                >
+                  <PricingCard
+                    plan={plan}
+                    billingCycle={billingCycle}
+                    isActive={activeCard === i}
+                    isMobile={isMobile}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Additional Info */}
       <div className="mt-16 max-w-3xl text-center px-6">

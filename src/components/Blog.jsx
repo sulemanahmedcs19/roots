@@ -3,21 +3,13 @@ import { blogPosts } from "./data/blogData";
 import { useNavigate, useLocation } from "react-router-dom";
 import "boxicons/css/boxicons.min.css";
 
-const Blog = ({ setModalOpen }) => {
+const Blog = ({ setModalOpen, isMobile }) => {
   const [activePost, setActivePost] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const modalRef = useRef(null);
   const sliderRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Check if mobile
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   // Disable body scroll + app scroll
   useEffect(() => {
@@ -58,20 +50,24 @@ const Blog = ({ setModalOpen }) => {
 
   // Handle slide navigation
   const goToPrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Math.max(0, blogPosts.length - 3) : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => {
+      const itemsPerView = isMobile ? 1 : 3;
+      const maxIndex = Math.max(0, blogPosts.length - itemsPerView);
+      return prevIndex === 0 ? maxIndex : prevIndex - 1;
+    });
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex >= blogPosts.length - 3 ? 0 : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => {
+      const itemsPerView = isMobile ? 1 : 3;
+      const maxIndex = Math.max(0, blogPosts.length - itemsPerView);
+      return prevIndex >= maxIndex ? 0 : prevIndex + 1;
+    });
   };
 
   return (
     <>
-      <section className="w-full h-full px-4 lg:px-16 py-16 text-white max-w-[1200px] mx-auto bg-gradient-to-br from-gray-900 to-black">
+      <section className="w-full min-h-screen px-4 lg:px-16 py-16 text-white max-w-[1200px] mx-auto bg-gradient-to-br from-gray-900 to-black">
         <div className="text-center mb-12">
           <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
             <span className="flex h-3 w-3 relative mr-2">

@@ -47,9 +47,13 @@ export default function App() {
 
   /* -------------------- Body scroll lock -------------------- */
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    if (isMobile) {
+      document.body.style.overflow = "auto";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
     return () => (document.body.style.overflow = "auto");
-  }, []);
+  }, [isMobile]);
 
   /* -------------------- AOS -------------------- */
   useEffect(() => {
@@ -71,18 +75,27 @@ export default function App() {
     setActiveIndex(index);
     isScrolling.current = true;
 
-    const value = index * (isMobile ? window.innerHeight : window.innerWidth);
-    const prop = isMobile ? "scrollTop" : "scrollLeft";
-
-    gsap.to(containerRef.current, {
-      [prop]: value,
-      duration: 0.8,
-      ease: "power2.inOut",
-      onComplete: () => {
+    if (isMobile) {
+      // For mobile, use native scrolling
+      const element = sectionRefs.current[index];
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
         isScrolling.current = false;
         if (updateURL) navigate("/" + sections[index], { replace: true });
-      },
-    });
+      }
+    } else {
+      // For desktop, use GSAP horizontal scrolling
+      const value = index * window.innerWidth;
+      gsap.to(containerRef.current, {
+        scrollLeft: value,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onComplete: () => {
+          isScrolling.current = false;
+          if (updateURL) navigate("/" + sections[index], { replace: true });
+        },
+      });
+    }
   };
 
   /* -------------------- Mouse Wheel (Desktop) -------------------- */
@@ -140,26 +153,28 @@ export default function App() {
   }
 
   /* -------------------- Styles -------------------- */
-  const panelClass = "w-screen h-screen flex-shrink-0 relative overflow-hidden";
+  const panelClass = "w-screen flex-shrink-0 relative overflow-hidden";
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-gray-900 relative">
+    <div className="w-screen overflow-hidden bg-gray-900 relative">
       <Header scrollToPanel={scrollToPanel} />
 
       <main
         ref={containerRef}
-        className={`flex ${
+        className={`${
           isMobile
-            ? "flex-col overflow-y-auto snap-y snap-mandatory"
-            : "flex-row overflow-x-hidden"
-        } w-full h-full`}
+            ? "block overflow-y-auto snap-y snap-mandatory h-screen"
+            : "flex overflow-x-hidden h-screen"
+        } w-full`}
       >
         {[Hero, Services, Blog, Contact, Pricing, Portfolio].map(
           (Component, i) => (
             <section
               key={i}
               ref={(el) => (sectionRefs.current[i] = el)}
-              className={`${panelClass} ${isMobile ? "snap-start" : ""}`}
+              className={`${panelClass} ${
+                isMobile ? "snap-start min-h-screen" : "h-screen"
+              }`}
             >
               <Component
                 scrollToPanel={scrollToPanel}
@@ -168,6 +183,7 @@ export default function App() {
                     ? setIsModalOpen
                     : undefined
                 }
+                isMobile={isMobile}
               />
             </section>
           )
