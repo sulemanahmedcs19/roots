@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 /* IMAGES & VIDEOS */
 // Web Design
@@ -235,10 +235,11 @@ const projectsData = [
 /* COMPONENT */
 const Portfolio = ({ setModalOpen }) => {
   const categories = ["Web Design", "Branding", "UI/UX Design", "Mobile App"];
-
   const [selectedCategory, setSelectedCategory] = useState("Web Design");
   const [activeProject, setActiveProject] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 150);
@@ -251,6 +252,24 @@ const Portfolio = ({ setModalOpen }) => {
   const filteredProjects = projectsData.filter(
     (p) => p.category === selectedCategory
   );
+
+  // Handle slide navigation
+  const goToPrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? Math.max(0, filteredProjects.length - 4) : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex >= filteredProjects.length - 4 ? 0 : prevIndex + 1
+    );
+  };
+
+  // Reset current index when category changes
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [selectedCategory]);
 
   return (
     <div
@@ -297,58 +316,82 @@ const Portfolio = ({ setModalOpen }) => {
         ))}
       </div>
 
-      {/* GRID */}
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              onClick={() => setActiveProject(project)}
-              className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-[1.03] hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50"
-            >
-              <div className="relative overflow-hidden h-40 lg:h-48">
-                {project.type === "image" ? (
-                  <img
-                    src={project.media}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                  />
-                ) : (
-                  <video
-                    src={project.media}
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                    {project.category}
-                  </span>
-                  <h3 className="font-bold text-lg text-white">
-                    {project.title}
-                  </h3>
+      {/* SLIDER CONTAINER */}
+      <div className="relative max-w-7xl mx-auto">
+        {/* Navigation Arrows */}
+        <button
+          onClick={goToPrev}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
+        >
+          <i className="bx bx-chevron-left text-2xl"></i>
+        </button>
+
+        <button
+          onClick={goToNext}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
+        >
+          <i className="bx bx-chevron-right text-2xl"></i>
+        </button>
+
+        {/* SLIDER */}
+        <div ref={sliderRef} className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * (100 / 4)}%)` }}
+          >
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="w-1/4 px-3 flex-shrink-0"
+                onClick={() => setActiveProject(project)}
+              >
+                <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
+                  <div className="relative overflow-hidden h-48">
+                    {project.type === "image" ? (
+                      <img
+                        src={project.media}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      />
+                    ) : (
+                      <video
+                        src={project.media}
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                        {project.category}
+                      </span>
+                      <h3 className="font-bold text-lg text-white">
+                        {project.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="p-4 flex-grow flex flex-col">
+                    <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
+                      {project.description}
+                    </p>
+
+                    <div className="flex justify-between items-center mt-4">
+                      <span className="text-xs text-gray-500">
+                        {project.type === "image" ? "Image" : "Video"}
+                      </span>
+                      <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
+                        View Project{" "}
+                        <i className="bx bx-right-arrow-alt ml-1"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="p-4">
-                <p className="text-gray-400 text-sm line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-xs text-gray-500">
-                    {project.type === "image" ? "Image" : "Video"}
-                  </span>
-                  <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
-                    View Project <i className="bx bx-right-arrow-alt ml-1"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

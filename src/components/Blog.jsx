@@ -5,10 +5,19 @@ import "boxicons/css/boxicons.min.css";
 
 const Blog = ({ setModalOpen }) => {
   const [activePost, setActivePost] = useState(null);
-  const cardRefs = useRef([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const modalRef = useRef(null);
+  const sliderRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Check if mobile
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Disable body scroll + app scroll
   useEffect(() => {
@@ -47,23 +56,18 @@ const Blog = ({ setModalOpen }) => {
     navigate("/blog");
   };
 
-  // Intersection Observer for Animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add("opacity-100", "translate-y-0");
-            }, index * 120);
-          }
-        });
-      },
-      { threshold: 0.2 }
+  // Handle slide navigation
+  const goToPrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? Math.max(0, blogPosts.length - 3) : prevIndex - 1
     );
+  };
 
-    cardRefs.current.forEach((el) => el && observer.observe(el));
-  }, []);
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex >= blogPosts.length - 3 ? 0 : prevIndex + 1
+    );
+  };
 
   return (
     <>
@@ -91,45 +95,118 @@ const Blog = ({ setModalOpen }) => {
           </p>
         </div>
 
-        {/* MASONRY GRID */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 lg:gap-6">
-          {blogPosts.slice(0, 6).map((post, i) => (
-            <div
-              key={i}
-              ref={(el) => (cardRefs.current[i] = el)}
-              onClick={() => openModal(post)}
-              className="mb-6 break-inside-avoid opacity-0 translate-y-10 transition-all duration-700 bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 flex flex-col h-auto hover:scale-[1.02] transform-gpu ease-in-out"
-            >
-              <div className="relative overflow-hidden h-40 lg:h-48">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                    {post.category}
-                  </span>
-                  <h3 className="font-bold text-lg text-white">{post.title}</h3>
+        {/* MOBILE VIEW - Vertical Scroll */}
+        {isMobile ? (
+          <div className="space-y-6">
+            {blogPosts.map((post, i) => (
+              <div
+                key={i}
+                onClick={() => openModal(post)}
+                className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-auto flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300"
+              >
+                <div className="relative overflow-hidden h-48">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                      {post.category}
+                    </span>
+                    <h3 className="font-bold text-lg text-white">
+                      {post.title}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="p-4 flex-grow flex flex-col">
+                  <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
+                    {post.desc}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-xs text-gray-500">{post.date}</span>
+                    <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                      Read More
+                    </button>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          /* DESKTOP VIEW - Horizontal Slider */
+          <div className="relative">
+            {/* Navigation Arrows */}
+            <button
+              onClick={goToPrev}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
+            >
+              <i className="bx bx-chevron-left text-2xl"></i>
+            </button>
 
-              <div className="p-4 flex-grow flex flex-col">
-                <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
-                  {post.desc}
-                </p>
+            <button
+              onClick={goToNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
+            >
+              <i className="bx bx-chevron-right text-2xl"></i>
+            </button>
 
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xs text-gray-500">{post.date}</span>
-                  <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                    Read More
-                  </button>
-                </div>
+            {/* SLIDER */}
+            <div ref={sliderRef} className="overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / 3)}%)`,
+                }}
+              >
+                {blogPosts.map((post, i) => (
+                  <div
+                    key={i}
+                    className="w-1/3 px-3 flex-shrink-0"
+                    onClick={() => openModal(post)}
+                  >
+                    <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
+                      <div className="relative overflow-hidden h-48">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                            {post.category}
+                          </span>
+                          <h3 className="font-bold text-lg text-white">
+                            {post.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="p-4 flex-grow flex flex-col">
+                        <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
+                          {post.desc}
+                        </p>
+
+                        <div className="flex items-center justify-between mt-auto">
+                          <span className="text-xs text-gray-500">
+                            {post.date}
+                          </span>
+                          <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                            Read More
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </section>
 
       {/* MODAL */}
