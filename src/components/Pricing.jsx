@@ -238,7 +238,7 @@ const Pricing = ({ isMobile }) => {
       </div>
 
       {/* Billing Toggle */}
-      <div className="mb-16 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
+      <div className="mb-8 md:mb-12 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
         {["monthly", "yearly"].map((cycle) => (
           <button
             key={cycle}
@@ -276,7 +276,7 @@ const Pricing = ({ isMobile }) => {
       ) : (
         /* Desktop Carousel */
         <div
-          className="relative w-[950px] h-[600px]"
+          className="relative w-[950px] h-[600px] -mt-16"
           style={{ perspective: "1300px" }}
         >
           <div
@@ -286,6 +286,10 @@ const Pricing = ({ isMobile }) => {
               transform: `translateZ(-${radius}px) rotateY(${rotation}deg)`,
               transition: draggingRef.current ? "none" : "transform 0.6s ease",
             }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
           >
             {plans.map((plan, i) => {
               const angle = (360 / cardCount) * i;
@@ -317,18 +321,6 @@ const Pricing = ({ isMobile }) => {
           </div>
         </div>
       )}
-
-      {/* Additional Info */}
-      <div className="mt-16 max-w-3xl text-center px-6">
-        <h3 className="text-2xl font-bold mb-4">Need something custom?</h3>
-        <p className="text-gray-400 mb-6">
-          We offer custom plans for larger teams and enterprises. Contact us to
-          discuss your specific requirements.
-        </p>
-        <button className="px-8 py-3 rounded-xl font-medium bg-gray-800/50 border border-gray-700 text-white hover:bg-gray-700/50 transition-all">
-          Contact Sales
-        </button>
-      </div>
     </section>
   );
 };

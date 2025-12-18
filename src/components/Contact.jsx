@@ -51,7 +51,10 @@ const Contact = () => {
         </div>
 
         {/* Animated Heading */}
-        <div ref={headingRef} className="overflow-hidden mb-16 text-center">
+        <div
+          ref={headingRef}
+          className="overflow-hidden mb-12 md:mb-16 text-center"
+        >
           <h1
             className={`text-4xl md:text-5xl font-extrabold uppercase tracking-wide
                       bg-gradient-to-r from-amber-400 to-orange-500 text-transparent bg-clip-text
@@ -80,7 +83,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
           {/* OUR OFFICE */}
           <div
             className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
