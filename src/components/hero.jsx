@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
 import Spline from "@splinetool/react-spline";
+import backgroundVideo from "../assets/background/home.mp4";
 
 const Hero = ({ scrollToPanel, isMobile }) => {
   return (
     <main
       id="home"
-      className="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-4 py-16 md:py-24 text-white bg-gradient-to-br from-gray-900 to-black"
+      className="relative w-full min-h-screen overflow-hidden flex flex-col lg:flex-row items-center justify-between px-4 py-16 md:py-24 text-white"
     >
+      {/* Background Video - Desktop only */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover object-center"
+            style={{ transform: "scale(1.1)" }}
+          >
+            <source src={backgroundVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* Overlay to make content more readable */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
+        </div>
+      )}
+
       {/* Left Content - Desktop */}
       <div className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center space-y-6 lg:space-y-8 px-4 lg:px-8 lg:pl-16">
         <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 w-fit">
@@ -64,7 +84,7 @@ const Hero = ({ scrollToPanel, isMobile }) => {
       {/* Mobile visual placeholder */}
       {isMobile && (
         <div className="relative z-10 w-full h-64 flex items-center justify-center overflow-hidden mt-8">
-          <div className="w-full h-full bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-2xl flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-gray-900 to-black rounded-2xl flex items-center justify-center">
             <div className="text-center">
               <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center mb-4">
                 <i className="bx bx-rocket text-white text-2xl"></i>

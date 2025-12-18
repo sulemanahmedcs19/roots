@@ -5,6 +5,7 @@ import mobileImg from "../assets/services/mobile.jpg";
 import brandingImg from "../assets/services/Branding.jpg";
 import motionImg from "../assets/services/Motion.PNG";
 import uiImg from "../assets/services/UIdesign.PNG";
+import servicesBg from "../assets/background/services.jpg";
 
 export default function Services({ isMobile }) {
   const services = [
@@ -124,8 +125,17 @@ export default function Services({ isMobile }) {
   }, [activeIndex]);
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center px-4 lg:px-16 text-white relative bg-gradient-to-br from-gray-900 to-black py-16">
-      <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16 p-4 lg:p-8 rounded-xl">
+    <div className="w-full min-h-screen flex items-center justify-center px-4 lg:px-16 text-white relative py-16">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${servicesBg})` }}
+      >
+        {/* Dark overlay to make content more readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
+      </div>
+
+      <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16 p-4 lg:p-8 rounded-xl z-10">
         {/* LEFT SIDE */}
         <div className="flex-1 text-left space-y-6 lg:space-y-8 z-10 px-4">
           <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 w-fit">

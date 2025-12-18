@@ -213,7 +213,7 @@ const Pricing = ({ isMobile }) => {
       className="min-h-screen w-full py-16 md:py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
     >
       {/* Section Header */}
-      <div className="text-center mb-12 px-6">
+      <div className="text-center mb-8 px-6">
         <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-3">
           <span className="flex h-3 w-3 relative mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -238,7 +238,7 @@ const Pricing = ({ isMobile }) => {
       </div>
 
       {/* Billing Toggle */}
-      <div className="mb-8 md:mb-12 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
+      <div className="mb-6 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
         {["monthly", "yearly"].map((cycle) => (
           <button
             key={cycle}
@@ -276,7 +276,7 @@ const Pricing = ({ isMobile }) => {
       ) : (
         /* Desktop Carousel */
         <div
-          className="relative w-[950px] h-[600px] -mt-16"
+          className="relative w-[950px] h-[600px] -mt-8"
           style={{ perspective: "1300px" }}
         >
           <div
