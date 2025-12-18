@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
-/* ================= IMAGES & VIDEOS ================= */
-
+/* IMAGES & VIDEOS */
 // Web Design
 import web1 from "../assets/web/web1.png";
 import web2 from "../assets/web/web2.png";
@@ -35,8 +33,7 @@ import ui4 from "../assets/UI/ui4.png";
 import ui5 from "../assets/UI/ui5.png";
 import ui6 from "../assets/UI/ui6.png";
 
-/* ================= PROJECT DATA ================= */
-
+/* PROJECT DATA */
 const projectsData = [
   {
     id: 1,
@@ -44,7 +41,7 @@ const projectsData = [
     title: "E-commerce Platform",
     media: web1,
     type: "image",
-    description: "Modern e-commerce solution with intuitive user experience",
+    description: "Modern e-commerce solution with seamless user experience",
   },
   {
     id: 2,
@@ -52,7 +49,7 @@ const projectsData = [
     title: "Corporate Website",
     media: web2,
     type: "image",
-    description: "Professional website for a financial services company",
+    description: "Professional website for a leading financial firm",
   },
   {
     id: 3,
@@ -68,7 +65,7 @@ const projectsData = [
     title: "SaaS Dashboard",
     media: web4,
     type: "image",
-    description: "Analytics dashboard for a SaaS platform",
+    description: "Analytics dashboard for a data management platform",
   },
   {
     id: 5,
@@ -81,43 +78,43 @@ const projectsData = [
   {
     id: 6,
     category: "Web Design",
-    title: "Travel Agency",
+    title: "Travel Blog",
     media: web6,
     type: "image",
-    description: "Interactive travel booking platform",
+    description: "Interactive travel blog with booking functionality",
   },
   {
     id: 7,
     category: "Web Design",
-    title: "Real Estate Portal",
+    title: "Real Estate Platform",
     media: web7,
     type: "image",
-    description: "Property listing website with advanced search",
+    description: "Property listing platform with advanced search",
   },
   {
     id: 8,
     category: "Web Design",
-    title: "Educational Platform",
+    title: "Educational Portal",
     media: web8,
     type: "image",
-    description: "Online learning management system",
+    description: "Online learning platform with course management",
   },
 
   {
     id: 9,
     category: "Branding",
-    title: "Tech Startup Branding",
+    title: "Tech Startup Identity",
     media: brand1,
     type: "video",
-    description: "Complete brand identity for a tech startup",
+    description: "Complete brand identity for an AI startup",
   },
   {
     id: 10,
     category: "Branding",
-    title: "Fashion Brand Identity",
+    title: "Fashion Brand Rebrand",
     media: brand2,
     type: "video",
-    description: "Brand identity for a luxury fashion label",
+    description: "Rebranding for a sustainable fashion label",
   },
   {
     id: 11,
@@ -130,59 +127,59 @@ const projectsData = [
   {
     id: 12,
     category: "Branding",
-    title: "Fitness Brand Identity",
+    title: "Fitness App Branding",
     media: brand4,
     type: "video",
-    description: "Brand identity for a fitness app and equipment",
+    description: "Dynamic branding for a fitness app",
   },
 
   {
     id: 13,
     category: "Mobile App",
-    title: "Fitness Tracker App",
+    title: "Fitness Tracker",
     media: mobile1,
     type: "image",
-    description: "Mobile app for tracking workouts and nutrition",
+    description: "Health and fitness tracking mobile application",
   },
   {
     id: 14,
     category: "Mobile App",
-    title: "Banking App",
+    title: "Food Delivery App",
     media: mobile2,
     type: "image",
-    description: "Secure mobile banking application",
+    description: "On-demand food delivery platform",
   },
   {
     id: 15,
     category: "Mobile App",
-    title: "Food Delivery App",
+    title: "Banking App",
     media: mobile3,
     type: "image",
-    description: "Food ordering and delivery platform",
+    description: "Secure mobile banking application",
   },
   {
     id: 16,
     category: "Mobile App",
-    title: "Travel Planner App",
+    title: "Travel Planner",
     media: mobile4,
     type: "image",
-    description: "App for planning and booking travel itineraries",
+    description: "Trip planning and booking application",
   },
   {
     id: 17,
     category: "Mobile App",
-    title: "Meditation App",
+    title: "Social Media App",
     media: mobile5,
     type: "image",
-    description: "Mindfulness and meditation application",
+    description: "Photo sharing social platform",
   },
   {
     id: 18,
     category: "Mobile App",
-    title: "Social Media App",
+    title: "E-learning App",
     media: mobile6,
     type: "image",
-    description: "Niche social networking platform",
+    description: "Interactive learning platform for students",
   },
 
   {
@@ -196,10 +193,10 @@ const projectsData = [
   {
     id: 20,
     category: "UI/UX Design",
-    title: "E-commerce App UI",
+    title: "E-commerce UI",
     media: ui2,
     type: "image",
-    description: "User interface for a shopping application",
+    description: "Online shopping interface with product filters",
   },
   {
     id: 21,
@@ -207,36 +204,35 @@ const projectsData = [
     title: "Music App UI",
     media: ui3,
     type: "image",
-    description: "Streaming music application interface",
+    description: "Music streaming application interface",
   },
   {
     id: 22,
     category: "UI/UX Design",
-    title: "Healthcare App UI",
+    title: "Task Management UI",
     media: ui4,
     type: "image",
-    description: "Patient management application interface",
+    description: "Productivity app for team collaboration",
   },
   {
     id: 23,
     category: "UI/UX Design",
-    title: "Education App UI",
+    title: "Weather App UI",
     media: ui5,
     type: "image",
-    description: "Online learning platform interface",
+    description: "Weather forecast application with maps",
   },
   {
     id: 24,
     category: "UI/UX Design",
-    title: "Finance App UI",
+    title: "News App UI",
     media: ui6,
     type: "image",
-    description: "Personal finance management application",
+    description: "News reading app with personalized content",
   },
 ];
 
-/* ================= COMPONENT ================= */
-
+/* COMPONENT */
 const Portfolio = ({ setModalOpen }) => {
   const categories = ["Web Design", "Branding", "UI/UX Design", "Mobile App"];
 
@@ -258,63 +254,59 @@ const Portfolio = ({ setModalOpen }) => {
 
   return (
     <div
-      className={`w-full h-full px-4 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen ${
+      className={`w-full h-full px-6 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-black ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
       {/* Section Header */}
-      <motion.div
-        className="text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-medium mb-4">
-          <i className="bx bx-briefcase text-blue-400 mr-2"></i>
-          Our Portfolio
+      <div className="text-center mb-16">
+        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
+          <span className="flex h-3 w-3 relative mr-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+          <span className="text-sm font-medium text-amber-400">Our Work</span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Creative Works</h2>
+
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          Creative{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+            Portfolio
+          </span>
+        </h2>
+
         <p className="text-gray-400 max-w-2xl mx-auto">
-          Explore our latest projects and see how we've helped businesses
-          transform their digital presence.
+          Explore our latest projects and see how we bring ideas to life
         </p>
-      </motion.div>
+      </div>
 
       {/* Categories */}
       <div className="flex flex-wrap justify-center gap-4 mb-12">
         {categories.map((cat) => (
-          <motion.button
+          <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-6 py-3 rounded-full font-medium transition ${
+            className={`px-6 py-3 rounded-full font-medium transition-all ${
               selectedCategory === cat
-                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                : "bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gray-700/50"
             }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             {cat}
-          </motion.button>
+          </button>
         ))}
       </div>
 
       {/* GRID */}
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProjects.map((project, index) => (
-            <motion.div
+          {filteredProjects.map((project) => (
+            <div
               key={project.id}
               onClick={() => setActiveProject(project)}
-              className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-xl overflow-hidden cursor-pointer hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col h-full"
-              whileHover={{ y: -10 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-[1.03] hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50"
             >
-              <div className="h-48 overflow-hidden">
+              <div className="relative overflow-hidden h-48">
                 {project.type === "image" ? (
                   <img
                     src={project.media}
@@ -330,104 +322,93 @@ const Portfolio = ({ setModalOpen }) => {
                     className="w-full h-full object-cover"
                   />
                 )}
-              </div>
-              <div className="p-4 flex-1 flex flex-col">
-                <div className="text-xs text-blue-400 font-medium mb-1">
-                  {project.category}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                    {project.category}
+                  </span>
+                  <h3 className="font-bold text-lg text-white">
+                    {project.title}
+                  </h3>
                 </div>
-                <h3 className="font-semibold text-lg text-white mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 text-sm flex-1">
+              </div>
+
+              <div className="p-5">
+                <p className="text-gray-400 text-sm line-clamp-2">
                   {project.description}
                 </p>
-                <div className="mt-4 text-blue-400 text-sm font-medium flex items-center">
-                  View Project
-                  <i className="bx bx-right-arrow-alt ml-1"></i>
+
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-xs text-gray-500">
+                    {project.type === "image" ? "Image" : "Video"}
+                  </span>
+                  <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
+                    View Project <i className="bx bx-right-arrow-alt ml-1"></i>
+                  </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* MODAL */}
       {activeProject && (
-        <motion.div
+        <div
           className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
           onClick={() => setActiveProject(null)}
         >
-          <motion.div
+          <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto p-6 relative"
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-gray-800/90 backdrop-blur-lg rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col border border-gray-700/50"
           >
-            <button
-              onClick={() => setActiveProject(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl z-10"
-            >
-              ✕
-            </button>
-
-            <div className="mb-4">
-              <div className="text-blue-400 text-sm font-medium">
-                {activeProject.category}
+            <div className="p-6 border-b border-gray-700/50 flex justify-between items-center">
+              <div>
+                <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-700/50 rounded-full mb-2">
+                  {activeProject.category}
+                </span>
+                <h2 className="text-2xl font-bold text-white">
+                  {activeProject.title}
+                </h2>
               </div>
-              <h2 className="text-3xl font-bold text-white mt-1">
-                {activeProject.title}
-              </h2>
+              <button
+                onClick={() => setActiveProject(null)}
+                className="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-700/50 transition-colors"
+              >
+                <i className="bx bx-x text-2xl"></i>
+              </button>
             </div>
 
-            <div className="flex justify-center items-center my-6">
+            <div className="overflow-y-auto flex-grow flex items-center justify-center p-4 bg-gray-900/50">
               {activeProject.type === "image" ? (
                 <img
                   src={activeProject.media}
                   alt={activeProject.title}
-                  className="rounded-xl max-w-full"
+                  className="max-w-full max-h-[70vh] object-contain rounded-lg"
                 />
               ) : (
                 <video
                   src={activeProject.media}
                   controls
-                  className="rounded-xl max-w-full max-h-[70vh]"
+                  className="max-w-full max-h-[70vh] object-contain rounded-lg"
                 />
               )}
             </div>
 
-            <div className="mt-6">
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Project Description
-              </h3>
-              <p className="text-gray-300">
-                {activeProject.description} This project showcases our expertise
-                in creating engaging digital experiences that drive results for
-                our clients. Our team worked closely with the client to
-                understand their goals and deliver a solution that exceeded
-                expectations.
-              </p>
-            </div>
+            <div className="p-6 border-t border-gray-700/50">
+              <p className="text-gray-300">{activeProject.description}</p>
 
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gray-700/50 p-4 rounded-lg">
-                <div className="text-blue-400 font-medium">Client</div>
-                <div className="text-white">Leading Industry Brand</div>
-              </div>
-              <div className="bg-gray-700/50 p-4 rounded-lg">
-                <div className="text-blue-400 font-medium">Duration</div>
-                <div className="text-white">3 Months</div>
-              </div>
-              <div className="bg-gray-700/50 p-4 rounded-lg">
-                <div className="text-blue-400 font-medium">Technologies</div>
-                <div className="text-white">React, Node.js, MongoDB</div>
+              <div className="flex justify-end mt-6">
+                <button
+                  onClick={() => setActiveProject(null)}
+                  className="px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                >
+                  Close
+                </button>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
     </div>
   );

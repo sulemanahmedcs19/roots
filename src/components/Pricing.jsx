@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 
-/* ================= PLANS DATA ================= */
-
+/* PLANS DATA */
 const plans = [
   {
     id: 1,
@@ -66,8 +64,7 @@ const plans = [
   },
 ];
 
-/* ================= CARD ================= */
-
+/* CARD */
 const PricingCard = ({ plan, billingCycle, isActive }) => {
   const price =
     billingCycle === "monthly"
@@ -75,72 +72,74 @@ const PricingCard = ({ plan, billingCycle, isActive }) => {
       : plan.priceYearly ?? plan.priceMonthly;
 
   return (
-    <motion.div
+    <div
       className={`
-        rounded-2xl w-80 h-[440px]
-        bg-gradient-to-b from-gray-800 to-gray-900 border
-        p-7 text-white
-        transition-all duration-500 cursor-pointer relative overflow-hidden
-        ${
+        rounded-2xl w-80 h-[480px]
+        bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm
+        p-8 text-white
+        transition-all duration-500 cursor-pointer
+        border ${
           plan.popular
-            ? "border-blue-500 shadow-lg shadow-blue-500/20"
-            : "border-gray-700"
+            ? "border-amber-500/50 shadow-lg shadow-amber-500/10"
+            : "border-gray-700/50"
         }
-        ${isActive ? "scale-110 z-10" : "scale-100 hover:scale-105"}
+        ${isActive ? "scale-105" : "scale-100 hover:scale-[1.03]"}
+        relative overflow-hidden
       `}
-      whileHover={{ y: -10 }}
       style={{ userSelect: "none" }}
     >
       {plan.popular && (
-        <div className="absolute top-0 right-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
+        <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
           MOST POPULAR
         </div>
       )}
 
-      <h3 className="text-3xl font-bold mb-2">{plan.title}</h3>
-
-      <p className="text-sm text-gray-400 mb-4">{plan.description}</p>
-
-      <div className="text-5xl font-extrabold mb-2 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text">
-        ${price}
+      <div className="mb-6">
+        <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
+        <p className="text-gray-400 text-sm">{plan.description}</p>
       </div>
 
-      <div className="text-xs mb-5 tracking-widest text-gray-500">
-        {billingCycle === "monthly" ? "BILLED MONTHLY" : "BILLED YEARLY"}
+      <div className="mb-6">
+        <div className="flex items-baseline">
+          <span className="text-5xl font-bold">${price}</span>
+          <span className="text-gray-400 ml-2">
+            /{billingCycle === "monthly" ? "mo" : "yr"}
+          </span>
+        </div>
+        <div className="text-xs text-gray-500 mt-1">
+          {billingCycle === "monthly" ? "Billed monthly" : "Billed yearly"}
+        </div>
       </div>
 
-      <motion.button
-        className={`w-full rounded-full py-3 mb-6 tracking-wide font-semibold ${
+      <button
+        className={`w-full py-3 rounded-xl font-medium mb-8 transition-all ${
           plan.popular
-            ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-            : "bg-gray-700 text-gray-300"
+            ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:opacity-90"
+            : "bg-gray-700/50 text-white hover:bg-gray-600/50"
         }`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
       >
         {plan.buttonText}
-      </motion.button>
+      </button>
 
-      <ul className="text-sm space-y-3">
+      <ul className="space-y-3">
         {plan.features.map((feature, i) => (
-          <li key={i} className="flex gap-2 items-start">
-            <i className="bx bx-check text-blue-400 text-xl"></i>
+          <li key={i} className="flex items-start">
+            <i className="bx bx-check text-amber-400 text-xl mr-3 mt-0.5"></i>
             <span className="text-gray-300">{feature}</span>
           </li>
         ))}
       </ul>
-    </motion.div>
+    </div>
   );
 };
 
-/* ================= MAIN ================= */
-
+/* MAIN */
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [rotation, setRotation] = useState(0);
   const [activeCard, setActiveCard] = useState(null);
 
-  const radius = 400; // bigger radius for big cards
+  const radius = 400;
   const cardCount = plans.length;
 
   const rotateRef = useRef(true);
@@ -197,50 +196,52 @@ const Pricing = () => {
   return (
     <section
       id="pricing"
-      className="min-h-screen py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-gray-800"
+      className="min-h-screen w-full py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
     >
       {/* Section Header */}
-      <motion.div
-        className="text-center mb-16 max-w-3xl px-4"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-medium mb-4">
-          <i className="bx bx-tag text-blue-400 mr-2"></i>
-          Pricing Plans
+      <div className="text-center mb-16 px-6">
+        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
+          <span className="flex h-3 w-3 relative mr-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+          <span className="text-sm font-medium text-amber-400">
+            Pricing Plans
+          </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
-          Simple, Transparent Pricing
-        </h2>
-        <p className="text-gray-400">
-          Choose the perfect plan for your needs. All plans include a 14-day
-          free trial.
-        </p>
-      </motion.div>
 
-      {/* Billing */}
-      <div className="mb-12 flex gap-4">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          Simple,{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+            Transparent
+          </span>{" "}
+          Pricing
+        </h2>
+
+        <p className="text-gray-400 max-w-2xl mx-auto">
+          Choose the perfect plan for your needs. Always know what you'll pay.
+        </p>
+      </div>
+
+      {/* Billing Toggle */}
+      <div className="mb-16 flex items-center gap-4 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
         {["monthly", "yearly"].map((cycle) => (
-          <motion.button
+          <button
             key={cycle}
             onClick={() => setBillingCycle(cycle)}
-            className={`px-8 py-3 rounded-full font-semibold transition ${
+            className={`px-6 py-3 rounded-full font-medium transition ${
               billingCycle === cycle
-                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                : "text-gray-400 hover:text-white"
             }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
-            {cycle.toUpperCase()}
+            {cycle === "monthly" ? "Monthly" : "Yearly"}
             {cycle === "yearly" && (
-              <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
+              <span className="ml-2 text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">
                 Save 20%
               </span>
             )}
-          </motion.button>
+          </button>
         ))}
       </div>
 
@@ -265,10 +266,10 @@ const Pricing = () => {
                 style={{
                   position: "absolute",
                   width: "320px",
-                  height: "440px",
+                  height: "480px",
                   top: "50%",
                   left: "50%",
-                  marginTop: "-220px",
+                  marginTop: "-240px",
                   marginLeft: "-160px",
                   transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
                   backfaceVisibility: "hidden",
@@ -287,21 +288,16 @@ const Pricing = () => {
       </div>
 
       {/* Additional Info */}
-      <motion.div
-        className="mt-16 text-center max-w-2xl px-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <h3 className="text-xl font-semibold mb-2">Need a custom plan?</h3>
-        <p className="text-gray-400 mb-4">
-          We can create a tailored solution to meet your specific requirements.
+      <div className="mt-20 max-w-3xl text-center px-6">
+        <h3 className="text-2xl font-bold mb-4">Need something custom?</h3>
+        <p className="text-gray-400 mb-6">
+          We offer custom plans for larger teams and enterprises. Contact us to
+          discuss your specific requirements.
         </p>
-        <button className="px-6 py-2 bg-gray-800 text-gray-300 rounded-lg font-medium border border-gray-700 hover:bg-gray-700 transition-colors">
+        <button className="px-8 py-3 rounded-xl font-medium bg-gray-800/50 border border-gray-700 text-white hover:bg-gray-700/50 transition-all">
           Contact Sales
         </button>
-      </motion.div>
+      </div>
     </section>
   );
 };
