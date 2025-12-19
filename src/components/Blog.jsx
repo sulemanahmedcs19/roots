@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { blogPosts } from "./data/blogData";
 import { useNavigate, useLocation } from "react-router-dom";
 import "boxicons/css/boxicons.min.css";
+import blogBg from "../assets/background/blog.jpg";
 
 const Blog = ({ setModalOpen, isMobile }) => {
   const [activePost, setActivePost] = useState(null);
@@ -67,142 +68,153 @@ const Blog = ({ setModalOpen, isMobile }) => {
 
   return (
     <>
-      <section className="w-full min-h-screen px-4 lg:px-16 py-16 text-white max-w-[1200px] mx-auto bg-gradient-to-br from-gray-900 to-black">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
-            <span className="flex h-3 w-3 relative mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-            </span>
-            <span className="text-sm font-medium text-amber-400">
-              Latest Articles
-            </span>
-          </div>
-
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Our{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-              Blog
-            </span>
-          </h2>
-
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Insights, tutorials, and industry news from our team of experts
-          </p>
+      <section className="w-full min-h-screen px-4 lg:px-16 py-16 text-white relative">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${blogBg})` }}
+        >
+          {/* Dark overlay to make content more readable */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
         </div>
 
-        {/* MOBILE VIEW - Vertical Scroll */}
-        {isMobile ? (
-          <div className="space-y-6">
-            {blogPosts.map((post, i) => (
-              <div
-                key={i}
-                onClick={() => openModal(post)}
-                className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-auto flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300"
-              >
-                <div className="relative overflow-hidden h-48">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                      {post.category}
-                    </span>
-                    <h3 className="font-bold text-lg text-white">
-                      {post.title}
-                    </h3>
-                  </div>
-                </div>
+        <div className="relative z-10 max-w-[1200px] mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
+              <span className="flex h-3 w-3 relative mr-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+              </span>
+              <span className="text-sm font-medium text-amber-400">
+                Latest Articles
+              </span>
+            </div>
 
-                <div className="p-4 flex-grow flex flex-col">
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
-                    {post.desc}
-                  </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Our{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                Blog
+              </span>
+            </h2>
 
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-xs text-gray-500">{post.date}</span>
-                    <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                      Read More
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Insights, tutorials, and industry news from our team of experts
+            </p>
           </div>
-        ) : (
-          /* DESKTOP VIEW - Horizontal Slider */
-          <div className="relative">
-            {/* Navigation Arrows */}
-            <button
-              onClick={goToPrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
-            >
-              <i className="bx bx-chevron-left text-2xl"></i>
-            </button>
 
-            <button
-              onClick={goToNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
-            >
-              <i className="bx bx-chevron-right text-2xl"></i>
-            </button>
+          {/* MOBILE VIEW - Vertical Scroll */}
+          {isMobile ? (
+            <div className="space-y-6">
+              {blogPosts.map((post, i) => (
+                <div
+                  key={i}
+                  onClick={() => openModal(post)}
+                  className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-auto flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300"
+                >
+                  <div className="relative overflow-hidden h-48">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                        {post.category}
+                      </span>
+                      <h3 className="font-bold text-lg text-white">
+                        {post.title}
+                      </h3>
+                    </div>
+                  </div>
 
-            {/* SLIDER */}
-            <div ref={sliderRef} className="overflow-hidden">
-              <div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${currentIndex * (100 / 3)}%)`,
-                }}
+                  <div className="p-4 flex-grow flex flex-col">
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
+                      {post.desc}
+                    </p>
+
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-xs text-gray-500">{post.date}</span>
+                      <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Read More
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* DESKTOP VIEW - Horizontal Slider */
+            <div className="relative">
+              {/* Navigation Arrows */}
+              <button
+                onClick={goToPrev}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
               >
-                {blogPosts.map((post, i) => (
-                  <div
-                    key={i}
-                    className="w-1/3 px-3 flex-shrink-0"
-                    onClick={() => openModal(post)}
-                  >
-                    <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
-                      <div className="relative overflow-hidden h-48">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                            {post.category}
-                          </span>
-                          <h3 className="font-bold text-lg text-white">
-                            {post.title}
-                          </h3>
+                <i className="bx bx-chevron-left text-2xl"></i>
+              </button>
+
+              <button
+                onClick={goToNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
+              >
+                <i className="bx bx-chevron-right text-2xl"></i>
+              </button>
+
+              {/* SLIDER */}
+              <div ref={sliderRef} className="overflow-hidden">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${currentIndex * (100 / 3)}%)`,
+                  }}
+                >
+                  {blogPosts.map((post, i) => (
+                    <div
+                      key={i}
+                      className="w-1/3 px-3 flex-shrink-0"
+                      onClick={() => openModal(post)}
+                    >
+                      <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
+                        <div className="relative overflow-hidden h-48">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                              {post.category}
+                            </span>
+                            <h3 className="font-bold text-lg text-white">
+                              {post.title}
+                            </h3>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="p-4 flex-grow flex flex-col">
-                        <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
-                          {post.desc}
-                        </p>
+                        <div className="p-4 flex-grow flex flex-col">
+                          <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
+                            {post.desc}
+                          </p>
 
-                        <div className="flex items-center justify-between mt-auto">
-                          <span className="text-xs text-gray-500">
-                            {post.date}
-                          </span>
-                          <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                            Read More
-                          </button>
+                          <div className="flex items-center justify-between mt-auto">
+                            <span className="text-xs text-gray-500">
+                              {post.date}
+                            </span>
+                            <button className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                              Read More
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </section>
 
       {/* MODAL */}

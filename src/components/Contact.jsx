@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import contactBg from "../assets/background/contact.jpg";
 
 const Contact = () => {
   const headingRef = useRef(null);
@@ -21,10 +22,18 @@ const Contact = () => {
     <section
       id="contact"
       className="min-h-screen w-full px-4 lg:px-16 py-16 lg:py-32 
-                 text-white 
-                 bg-gradient-to-br from-gray-900 to-black"
+                 text-white relative"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${contactBg})` }}
+      >
+        {/* Dark overlay to make content more readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">

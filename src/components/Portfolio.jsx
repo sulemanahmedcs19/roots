@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import portfolioBg from "../assets/background/portfolio.jpg";
 
 /* IMAGES & VIDEOS */
 // Web Design
@@ -276,183 +277,193 @@ const Portfolio = ({ setModalOpen, isMobile }) => {
   }, [selectedCategory]);
 
   return (
-    <div
-      className={`w-full min-h-screen px-4 lg:px-16 py-16 text-white transition-opacity duration-1000 bg-gradient-to-br from-gray-900 to-black ${
-        visible ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      {/* Section Header */}
-      <div className="text-center mb-12">
-        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
-          <span className="flex h-3 w-3 relative mr-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-          </span>
-          <span className="text-sm font-medium text-amber-400">Our Work</span>
+    <div className="w-full min-h-screen px-4 lg:px-16 py-16 text-white relative">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${portfolioBg})` }}
+      >
+        {/* Dark overlay to make content more readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
+      </div>
+
+      <div className="relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-6">
+            <span className="flex h-3 w-3 relative mr-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+            </span>
+            <span className="text-sm font-medium text-amber-400">Our Work</span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Creative{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+              Portfolio
+            </span>
+          </h2>
+
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Explore our latest projects and see how we bring ideas to life
+          </p>
         </div>
 
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-          Creative{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-            Portfolio
-          </span>
-        </h2>
-
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Explore our latest projects and see how we bring ideas to life
-        </p>
-      </div>
-
-      {/* Categories */}
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 lg:px-6 lg:py-3 rounded-full font-medium transition-all text-sm lg:text-base ${
-              selectedCategory === cat
-                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
-                : "bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gray-700/50"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* MOBILE VIEW - Vertical Cards */}
-      {isMobile ? (
-        <div className="space-y-6 max-w-2xl mx-auto">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              onClick={() => setActiveProject(project)}
-              className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-auto flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300"
+        {/* Categories */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 lg:px-6 lg:py-3 rounded-full font-medium transition-all text-sm lg:text-base ${
+                selectedCategory === cat
+                  ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                  : "bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gray-700/50"
+              }`}
             >
-              <div className="relative overflow-hidden h-48">
-                {project.type === "image" ? (
-                  <img
-                    src={project.media}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                  />
-                ) : (
-                  <video
-                    src={project.media}
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                    {project.category}
-                  </span>
-                  <h3 className="font-bold text-lg text-white">
-                    {project.title}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-4 flex-grow flex flex-col">
-                <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
-                  {project.description}
-                </p>
-
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-xs text-gray-500">
-                    {project.type === "image" ? "Image" : "Video"}
-                  </span>
-                  <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
-                    View Project <i className="bx bx-right-arrow-alt ml-1"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+              {cat}
+            </button>
           ))}
         </div>
-      ) : (
-        /* DESKTOP VIEW - Horizontal Slider */
-        <div className="relative max-w-7xl mx-auto">
-          {/* Navigation Arrows */}
-          <button
-            onClick={goToPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
-          >
-            <i className="bx bx-chevron-left text-2xl"></i>
-          </button>
 
-          <button
-            onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
-          >
-            <i className="bx bx-chevron-right text-2xl"></i>
-          </button>
+        {/* MOBILE VIEW - Vertical Cards */}
+        {isMobile ? (
+          <div className="space-y-6 max-w-2xl mx-auto">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                onClick={() => setActiveProject(project)}
+                className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-auto flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300"
+              >
+                <div className="relative overflow-hidden h-48">
+                  {project.type === "image" ? (
+                    <img
+                      src={project.media}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    />
+                  ) : (
+                    <video
+                      src={project.media}
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                      {project.category}
+                    </span>
+                    <h3 className="font-bold text-lg text-white">
+                      {project.title}
+                    </h3>
+                  </div>
+                </div>
 
-          {/* SLIDER */}
-          <div ref={sliderRef} className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * (100 / 4)}%)` }}
+                <div className="p-4 flex-grow flex flex-col">
+                  <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
+                    {project.description}
+                  </p>
+
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-xs text-gray-500">
+                      {project.type === "image" ? "Image" : "Video"}
+                    </span>
+                    <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
+                      View Project{" "}
+                      <i className="bx bx-right-arrow-alt ml-1"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* DESKTOP VIEW - Horizontal Slider */
+          <div className="relative max-w-7xl mx-auto">
+            {/* Navigation Arrows */}
+            <button
+              onClick={goToPrev}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors -translate-x-5"
             >
-              {filteredProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="w-1/4 px-3 flex-shrink-0"
-                  onClick={() => setActiveProject(project)}
-                >
-                  <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
-                    <div className="relative overflow-hidden h-48">
-                      {project.type === "image" ? (
-                        <img
-                          src={project.media}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                        />
-                      ) : (
-                        <video
-                          src={project.media}
-                          muted
-                          loop
-                          playsInline
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
-                          {project.category}
-                        </span>
-                        <h3 className="font-bold text-lg text-white">
-                          {project.title}
-                        </h3>
+              <i className="bx bx-chevron-left text-2xl"></i>
+            </button>
+
+            <button
+              onClick={goToNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-amber-500 transition-colors translate-x-5"
+            >
+              <i className="bx bx-chevron-right text-2xl"></i>
+            </button>
+
+            {/* SLIDER */}
+            <div ref={sliderRef} className="overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / 4)}%)`,
+                }}
+              >
+                {filteredProjects.map((project) => (
+                  <div
+                    key={project.id}
+                    className="w-1/4 px-3 flex-shrink-0"
+                    onClick={() => setActiveProject(project)}
+                  >
+                    <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-amber-500/10 border border-gray-700/50 hover:border-amber-500/50 h-full flex flex-col hover:scale-[1.02] transform-gpu ease-in-out transition-all duration-300">
+                      <div className="relative overflow-hidden h-48">
+                        {project.type === "image" ? (
+                          <img
+                            src={project.media}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                          />
+                        ) : (
+                          <video
+                            src={project.media}
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <span className="inline-block px-3 py-1 text-xs font-semibold text-amber-400 bg-gray-900/70 backdrop-blur-sm rounded-full mb-2">
+                            {project.category}
+                          </span>
+                          <h3 className="font-bold text-lg text-white">
+                            {project.title}
+                          </h3>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="p-4 flex-grow flex flex-col">
-                      <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
-                        {project.description}
-                      </p>
+                      <div className="p-4 flex-grow flex flex-col">
+                        <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
+                          {project.description}
+                        </p>
 
-                      <div className="flex justify-between items-center mt-4">
-                        <span className="text-xs text-gray-500">
-                          {project.type === "image" ? "Image" : "Video"}
-                        </span>
-                        <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
-                          View Project{" "}
-                          <i className="bx bx-right-arrow-alt ml-1"></i>
-                        </button>
+                        <div className="flex justify-between items-center mt-4">
+                          <span className="text-xs text-gray-500">
+                            {project.type === "image" ? "Image" : "Video"}
+                          </span>
+                          <button className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center">
+                            View Project{" "}
+                            <i className="bx bx-right-arrow-alt ml-1"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* MODAL */}
       {activeProject && (

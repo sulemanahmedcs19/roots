@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import priceVideo from "../assets/background/price.mp4";
 
 /* PLANS DATA */
 const plans = [
@@ -210,105 +211,82 @@ const Pricing = ({ isMobile }) => {
   return (
     <section
       id="pricing"
-      className="min-h-screen w-full py-16 md:py-24 flex flex-col items-center text-white bg-gradient-to-br from-gray-900 to-black"
+      className="min-h-screen w-full py-16 md:py-24 flex flex-col items-center text-white relative"
     >
-      {/* Section Header */}
-      <div className="text-center mb-8 px-6">
-        <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-3">
-          <span className="flex h-3 w-3 relative mr-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-          </span>
-          <span className="text-sm font-medium text-amber-400">
-            Pricing Plans
-          </span>
-        </div>
-
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
-          Simple,{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-            Transparent
-          </span>{" "}
-          Pricing
-        </h2>
-
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Choose the perfect plan for your needs. Always know what you'll pay.
-        </p>
-      </div>
-
-      {/* Billing Toggle */}
-      <div className="mb-6 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
-        {["monthly", "yearly"].map((cycle) => (
-          <button
-            key={cycle}
-            onClick={() => setBillingCycle(cycle)}
-            className={`px-6 py-3 rounded-full font-medium transition ${
-              billingCycle === cycle
-                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            {cycle === "monthly" ? "Monthly" : "Yearly"}
-            {cycle === "yearly" && (
-              <span className="ml-2 text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">
-                Save 20%
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Mobile Pricing Cards */}
-      {isMobile ? (
-        <div className="w-full max-w-md mx-auto space-y-6">
-          {plans.map((plan, i) => (
-            <div key={plan.id} onClick={() => handleCardClick(i)}>
-              <PricingCard
-                plan={plan}
-                billingCycle={billingCycle}
-                isActive={activeCard === i}
-                isMobile={isMobile}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        /* Desktop Carousel */
-        <div
-          className="relative w-[950px] h-[600px] -mt-8"
-          style={{ perspective: "1300px" }}
+      {/* Background Video - Desktop only */}
+      <div className="absolute inset-0 z-0 overflow-hidden hidden lg:block">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover object-center"
+          style={{ transform: "scale(1.1)" }}
         >
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{
-              transformStyle: "preserve-3d",
-              transform: `translateZ(-${radius}px) rotateY(${rotation}deg)`,
-              transition: draggingRef.current ? "none" : "transform 0.6s ease",
-            }}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {plans.map((plan, i) => {
-              const angle = (360 / cardCount) * i;
-              return (
-                <div
-                  key={plan.id}
-                  style={{
-                    position: "absolute",
-                    width: "320px",
-                    height: "480px",
-                    top: "50%",
-                    left: "50%",
-                    marginTop: "-240px",
-                    marginLeft: "-160px",
-                    transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
-                    backfaceVisibility: "hidden",
-                  }}
-                  onClick={() => handleCardClick(i)}
+          <source src={priceVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Dark overlay to make content more readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-black/90"></div>
+      </div>
+
+      {/* Mobile background fallback */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-gray-900 to-black lg:hidden"></div>
+
+      <div className="relative z-10 w-full flex flex-col items-center">
+        {/* Section Header */}
+        <div className="text-center mb-8 px-6">
+          <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 mb-3">
+            <span className="flex h-3 w-3 relative mr-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+            </span>
+            <span className="text-sm font-medium text-amber-400">
+              Pricing Plans
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Simple,{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+              Transparent
+            </span>{" "}
+            Pricing
+          </h2>
+
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Choose the perfect plan for your needs. Always know what you'll pay.
+          </p>
+        </div>
+
+        {/* Mobile Pricing Cards */}
+        {isMobile ? (
+          <>
+            {/* Billing Toggle - Mobile */}
+            <div className="mb-6 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
+              {["monthly", "yearly"].map((cycle) => (
+                <button
+                  key={cycle}
+                  onClick={() => setBillingCycle(cycle)}
+                  className={`px-6 py-3 rounded-full font-medium transition ${
+                    billingCycle === cycle
+                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                      : "text-gray-400 hover:text-white"
+                  }`}
                 >
+                  {cycle === "monthly" ? "Monthly" : "Yearly"}
+                  {cycle === "yearly" && (
+                    <span className="ml-2 text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">
+                      Save 20%
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div className="w-full max-w-md mx-auto space-y-6">
+              {plans.map((plan, i) => (
+                <div key={plan.id} onClick={() => handleCardClick(i)}>
                   <PricingCard
                     plan={plan}
                     billingCycle={billingCycle}
@@ -316,11 +294,85 @@ const Pricing = ({ isMobile }) => {
                     isMobile={isMobile}
                   />
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+              ))}
+            </div>
+          </>
+        ) : (
+          /* Desktop View */
+          <>
+            {/* Billing Toggle - Desktop */}
+            <div className="mb-6 flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full p-1 border border-gray-700">
+              {["monthly", "yearly"].map((cycle) => (
+                <button
+                  key={cycle}
+                  onClick={() => setBillingCycle(cycle)}
+                  className={`px-6 py-3 rounded-full font-medium transition ${
+                    billingCycle === cycle
+                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                      : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {cycle === "monthly" ? "Monthly" : "Yearly"}
+                  {cycle === "yearly" && (
+                    <span className="ml-2 text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">
+                      Save 20%
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Desktop Carousel */}
+            <div
+              className="relative w-[950px] h-[600px] -mt-8 mx-auto"
+              style={{ perspective: "1300px" }}
+            >
+              <div
+                className="absolute inset-0 flex items-center justify-center"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: `translateZ(-${radius}px) rotateY(${rotation}deg)`,
+                  transition: draggingRef.current
+                    ? "none"
+                    : "transform 0.6s ease",
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                {plans.map((plan, i) => {
+                  const angle = (360 / cardCount) * i;
+                  return (
+                    <div
+                      key={plan.id}
+                      style={{
+                        position: "absolute",
+                        width: "320px",
+                        height: "480px",
+                        top: "50%",
+                        left: "50%",
+                        marginTop: "-240px",
+                        marginLeft: "-160px",
+                        transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
+                        backfaceVisibility: "hidden",
+                      }}
+                      onClick={() => handleCardClick(i)}
+                    >
+                      <PricingCard
+                        plan={plan}
+                        billingCycle={billingCycle}
+                        isActive={activeCard === i}
+                        isMobile={isMobile}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </section>
   );
 };
