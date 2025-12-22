@@ -69,13 +69,14 @@ export default function Services({ isMobile }) {
   const scrollTop = useRef(0);
 
   const handleMouseDown = (e) => {
+    if (isMobile) return; // Disable drag for mobile
     isDragging.current = true;
     startY.current = e.clientY;
     scrollTop.current = sliderRef.current.scrollTop;
   };
 
   const handleMouseMove = (e) => {
-    if (!isDragging.current) return;
+    if (!isDragging.current || isMobile) return;
     const dy = e.clientY - startY.current;
     sliderRef.current.scrollTop = scrollTop.current - dy * 1.5;
   };
@@ -85,6 +86,7 @@ export default function Services({ isMobile }) {
   };
 
   const handleCardClick = (index) => {
+    if (isMobile) return; // Disable click for mobile
     const slider = sliderRef.current;
     const card = slider.children[0].children[index];
 
@@ -103,10 +105,13 @@ export default function Services({ isMobile }) {
     }
   };
 
+  // Auto-scroll effect for desktop only
   useEffect(() => {
-    if (activeIndex !== null) return;
+    if (isMobile || activeIndex !== null) return;
 
     const slider = sliderRef.current;
+    if (!slider) return;
+
     let animationFrameId;
 
     const scroll = () => {
@@ -122,7 +127,7 @@ export default function Services({ isMobile }) {
     animationFrameId = requestAnimationFrame(scroll);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [activeIndex]);
+  }, [activeIndex, isMobile]);
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center px-4 lg:px-16 text-white relative py-16">
@@ -161,61 +166,84 @@ export default function Services({ isMobile }) {
           </p>
         </div>
 
-        {/* RIGHT SIDE – VERTICAL SLIDER */}
-        <div
-          className={`flex-1 ${
-            isMobile ? "h-[500px]" : "h-[400px] lg:h-[500px]"
-          } overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4`}
-          ref={sliderRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-        >
-          <div className="absolute top-0 flex flex-col gap-4 lg:gap-6 w-full">
-            {[...services, ...services].map((service, index) => {
-              const isActive = index === activeIndex;
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleCardClick(index)}
-                  className={`p-4 lg:p-6 rounded-2xl cursor-pointer transition-all duration-700 ease-in-out transform backdrop-blur-sm ${
-                    isActive ? "scale-105 h-80 lg:h-96" : "h-24 lg:h-32"
-                  } bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/50 hover:border-amber-500/50`}
-                >
-                  <div className="relative z-10 flex flex-col justify-center h-full">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
-                        <i
-                          className={`${service.icon} text-2xl text-amber-400`}
-                        ></i>
-                      </div>
-                      <h2 className="text-xl lg:text-2xl font-bold text-white">
-                        {service.title}
-                      </h2>
-                    </div>
-
-                    <p className="text-gray-300 text-sm">
-                      {isActive ? service.paragraph : service.description}
-                    </p>
-
-                    {isActive && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveIndex(null);
-                        }}
-                        className="absolute top-4 right-4 text-white bg-gray-800/80 backdrop-blur-sm rounded-full p-2 hover:bg-amber-500 transition-all"
-                      >
-                        <i className="bx bx-x text-xl"></i>
-                      </button>
-                    )}
+        {/* RIGHT SIDE - CONDITIONAL RENDERING */}
+        {isMobile ? (
+          // Mobile View: All cards shown vertically without any slider
+          <div className="flex-1 space-y-4 z-10">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="p-4 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/50"
+              >
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+                    <i
+                      className={`${service.icon} text-2xl text-amber-400`}
+                    ></i>
                   </div>
+                  <h2 className="text-xl font-bold text-white">
+                    {service.title}
+                  </h2>
                 </div>
-              );
-            })}
+                <p className="text-gray-300 text-sm">{service.paragraph}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        ) : (
+          // Desktop View: Original slider functionality with auto-scroll
+          <div
+            className="flex-1 h-[400px] lg:h-[500px] overflow-hidden relative z-10 cursor-grab bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-4"
+            ref={sliderRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <div className="absolute top-0 flex flex-col gap-4 lg:gap-6 w-full">
+              {[...services, ...services].map((service, index) => {
+                const isActive = index === activeIndex;
+                return (
+                  <div
+                    key={index}
+                    onClick={() => handleCardClick(index)}
+                    className={`p-4 lg:p-6 rounded-2xl cursor-pointer transition-all duration-700 ease-in-out transform backdrop-blur-sm ${
+                      isActive ? "scale-105 h-80 lg:h-96" : "h-24 lg:h-32"
+                    } bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/50 hover:border-amber-500/50`}
+                  >
+                    <div className="relative z-10 flex flex-col justify-center h-full">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+                          <i
+                            className={`${service.icon} text-2xl text-amber-400`}
+                          ></i>
+                        </div>
+                        <h2 className="text-xl lg:text-2xl font-bold text-white">
+                          {service.title}
+                        </h2>
+                      </div>
+
+                      <p className="text-gray-300 text-sm">
+                        {isActive ? service.paragraph : service.description}
+                      </p>
+
+                      {isActive && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveIndex(null);
+                          }}
+                          className="absolute top-4 right-4 text-white bg-gray-800/80 backdrop-blur-sm rounded-full p-2 hover:bg-amber-500 transition-all"
+                        >
+                          <i className="bx bx-x text-xl"></i>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
