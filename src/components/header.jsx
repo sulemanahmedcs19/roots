@@ -20,6 +20,34 @@ const Header = ({ scrollToPanel }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when window is resized to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [menuOpen]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        menuOpen &&
+        !e.target.closest("header") &&
+        !e.target.closest(".mobile-menu")
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   // Sections
   const sections = [
     "Home",
@@ -81,22 +109,24 @@ const Header = ({ scrollToPanel }) => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="fixed inset-0 bg-gray-900/95 backdrop-blur-lg md:hidden z-40 pt-20">
-          <nav className="flex flex-col items-center justify-center h-full space-y-8">
-            {sections.map((label, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => handleNavClick(idx, e)}
-                className="text-2xl text-gray-300 hover:text-white transition-colors duration-300 font-medium"
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
+      {/* Mobile Menu - Improved */}
+      <div
+        className={`mobile-menu fixed top-0 left-0 w-full h-full bg-gray-900/95 backdrop-blur-lg md:hidden z-40 transform transition-transform duration-300 ease-in-out ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col items-center justify-center h-full space-y-8 pt-16">
+          {sections.map((label, idx) => (
+            <button
+              key={idx}
+              onClick={(e) => handleNavClick(idx, e)}
+              className="text-2xl text-gray-300 hover:text-white transition-colors duration-300 font-medium"
+            >
+              {label}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
     </header>
   );
 };
