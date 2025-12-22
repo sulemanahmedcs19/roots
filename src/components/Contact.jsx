@@ -92,12 +92,9 @@ const Contact = () => {
         </div>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
           {/* OUR OFFICE */}
-          <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
-            data-aos="fade-up"
-          >
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
               <i className="bx bx-map text-2xl text-amber-400"></i>
             </div>
@@ -111,11 +108,7 @@ const Contact = () => {
           </div>
 
           {/* CONTACT */}
-          <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
               <i className="bx bx-envelope text-2xl text-amber-400"></i>
             </div>
@@ -129,11 +122,7 @@ const Contact = () => {
           </div>
 
           {/* SOCIAL */}
-          <div
-            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-amber-500/50 transition-all hover:shadow-lg hover:shadow-amber-500/10 sm:col-span-2 lg:col-span-1">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
               <i className="bx bx-share-alt text-2xl text-amber-400"></i>
             </div>
