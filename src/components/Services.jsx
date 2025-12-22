@@ -62,6 +62,7 @@ export default function Services({ isMobile }) {
   ];
 
   const [activeIndex, setActiveIndex] = useState(null);
+  const [expandedMobileCards, setExpandedMobileCards] = useState([]);
   const sliderRef = useRef(null);
 
   const isDragging = useRef(false);
@@ -102,6 +103,15 @@ export default function Services({ isMobile }) {
           behavior: "smooth",
         });
       }
+    }
+  };
+
+  // Toggle mobile card expansion
+  const toggleMobileCard = (index) => {
+    if (expandedMobileCards.includes(index)) {
+      setExpandedMobileCards(expandedMobileCards.filter((i) => i !== index));
+    } else {
+      setExpandedMobileCards([...expandedMobileCards, index]);
     }
   };
 
@@ -168,7 +178,7 @@ export default function Services({ isMobile }) {
 
         {/* RIGHT SIDE - CONDITIONAL RENDERING */}
         {isMobile ? (
-          // Mobile View: All cards shown vertically without any slider
+          // Mobile View: Cards with Read More functionality
           <div className="flex-1 space-y-4 z-10">
             {services.map((service, index) => (
               <div
@@ -185,7 +195,29 @@ export default function Services({ isMobile }) {
                     {service.title}
                   </h2>
                 </div>
-                <p className="text-gray-300 text-sm">{service.paragraph}</p>
+
+                <p className="text-gray-300 text-sm mb-2">
+                  {expandedMobileCards.includes(index)
+                    ? service.paragraph
+                    : `${service.description.substring(0, 100)}...`}
+                </p>
+
+                <button
+                  onClick={() => toggleMobileCard(index)}
+                  className="text-amber-400 hover:text-amber-300 text-sm font-medium flex items-center gap-1"
+                >
+                  {expandedMobileCards.includes(index) ? (
+                    <>
+                      <span>Read Less</span>
+                      <i className="bx bx-chevron-up"></i>
+                    </>
+                  ) : (
+                    <>
+                      <span>Read More</span>
+                      <i className="bx bx-chevron-down"></i>
+                    </>
+                  )}
+                </button>
               </div>
             ))}
           </div>
